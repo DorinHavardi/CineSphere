@@ -34,10 +34,14 @@ export default CSText
 const styles = StyleSheet.create({
     biggest: {
         fontSize: getFontSizeByWindowWidth(40),
-        color: Colors.accent1000
+        color: Colors.accent1000,
+        fontWeight: 'bold',
+
     },
     bigger: {
         fontSize: getFontSizeByWindowWidth(36),
-        color: Colors.accent1000
+        color: Colors.accent1000,
+        fontWeight: 'bold',
+
     }
 })
