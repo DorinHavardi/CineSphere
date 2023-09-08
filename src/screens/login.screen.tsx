@@ -1,11 +1,13 @@
-import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import React, { FC } from 'react'
+import { Pressable, StyleSheet, View } from 'react-native'
 import { CsButton, CsInput, CsSocialConnect, CsText } from '../components'
 import { ECSTextTypes } from '../components/text.cmp'
 import { Colors } from '../theme/colors'
 import { ESocialConnectButtonTypes } from '../components/socialButton.cmp'
+import { useNavigation } from '@react-navigation/native'
 
-const Login = () => {
+const Login: FC = ({ }) => {
+    const navigation = useNavigation();
     return (
         <View style={styles.container}>
             <CsText type={ECSTextTypes.Biggest}>CineSphere</CsText>
@@ -20,6 +22,10 @@ const Login = () => {
                     <CsSocialConnect type={ESocialConnectButtonTypes.Apple} />
                 </View>
             </View>
+            <View style={styles.noAccount}>
+                <CsText type={ECSTextTypes.Small} style={styles.noAccountText}>Dont have an account? </CsText>
+                <Pressable onPress={() => navigation.navigate('register')}><CsText type={ECSTextTypes.Small} style={styles.noAccountText}>Press here</CsText></Pressable>
+            </View>
         </View>
     )
 }
@@ -31,7 +37,8 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         paddingVertical: 20,
-        backgroundColor: Colors.primary1000
+        backgroundColor: Colors.primary1000,
+        // width: "100%"
 
     },
     methodsContainer: {
@@ -42,4 +49,12 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         marginVertical: 25,
     },
+    noAccount: {
+        flexDirection: "row",
+        width: "100%",
+        justifyContent: 'center',
+    },
+    noAccountText: {
+        // color: Colors.primary500
+    }
 })

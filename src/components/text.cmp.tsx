@@ -5,7 +5,8 @@ import { Colors } from '../theme/colors';
 
 export enum ECSTextTypes {
     Biggest = 'biggest',
-    Bigger = 'bigger'
+    Bigger = 'bigger',
+    Small = 'small'
 }
 
 interface ICSText {
@@ -20,9 +21,13 @@ const CSText: FC<ICSText> = ({ children, type, style, numberOfLines }) => {
         return (
             <Text style={[styles.biggest, style]} numberOfLines={numberOfLines}>{children}</Text>
         )
-    else if (type === "bigger")
+    if (type === "bigger")
         return (
             <Text style={[styles.bigger, style]} numberOfLines={numberOfLines}>{children}</Text>
+        )
+    if (type === "small")
+        return (
+            <Text style={[styles.small, style]} numberOfLines={numberOfLines}>{children}</Text>
         )
     return (
         <Text numberOfLines={numberOfLines}>{children}</Text>
@@ -43,5 +48,10 @@ const styles = StyleSheet.create({
         color: Colors.accent1000,
         fontWeight: 'bold',
 
-    }
+    },
+    small: {
+        fontSize: getFontSizeByWindowWidth(16),
+        color: Colors.accent1000,
+
+    },
 })

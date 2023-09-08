@@ -1,9 +1,4 @@
-import CSButton from "./button.cmp";
-import CSInput from "./input.cmp";
-import SocialConnectButton from "./socialButton.cmp";
-import CSText from "./text.cmp";
-
-export const CsText = CSText;
-export const CsInput = CSInput;
-export const CsButton = CSButton;
-export const CsSocialConnect = SocialConnectButton;
+export { default as CsText } from "./text.cmp";
+export { default as CsInput } from "./input.cmp";
+export { default as CsButton } from "./button.cmp";
+export { default as CsSocialConnect } from "./socialButton.cmp";

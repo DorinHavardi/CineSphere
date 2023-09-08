@@ -1,11 +1,9 @@
 import { StyleSheet, TouchableOpacity } from 'react-native';
 import React, { FC } from 'react';
 import { Colors } from '../theme/colors';
-import AppleIcon from './svg/apple.icon';
-import GoogleIcon from './svg/google.icon';
-import FacebookIcon from './svg/facebook.icon';
+import { AppleIcon, FacebookIcon, GoogleIcon } from './svg';
 
-const BUTTON_SIZE = 65;
+const BUTTON_SIZE = 60;
 
 export enum ESocialConnectButtonTypes {
     Facebook = "facebook",
