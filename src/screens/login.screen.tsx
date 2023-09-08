@@ -1,7 +1,9 @@
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
-import { CsButton, CsInput, CsText } from '../components'
+import { CsButton, CsInput, CsSocialConnect, CsText } from '../components'
 import { ECSTextTypes } from '../components/text.cmp'
+import { Colors } from '../theme/colors'
+import { ESocialConnectButtonTypes } from '../components/socialButton.cmp'
 
 const Login = () => {
     return (
@@ -11,7 +13,12 @@ const Login = () => {
             <View style={styles.methodsContainer}>
                 <CsInput placeholder='Email' />
                 <CsInput placeholder='Password' secureTextEntry />
-                <CsButton text="Login" />
+                <CsButton text="Login" buttonStyle={{ marginTop: 50 }} />
+                <View style={styles.socialConnectContainer}>
+                    <CsSocialConnect type={ESocialConnectButtonTypes.Facebook} />
+                    <CsSocialConnect type={ESocialConnectButtonTypes.Google} />
+                    <CsSocialConnect type={ESocialConnectButtonTypes.Apple} />
+                </View>
             </View>
         </View>
     )
@@ -21,10 +28,18 @@ export default Login
 
 const styles = StyleSheet.create({
     container: {
+        flex: 1,
         alignItems: 'center',
-        marginVertical: 20
+        paddingVertical: 20,
+        backgroundColor: Colors.primary1000
+
     },
     methodsContainer: {
 
-    }
+    },
+    socialConnectContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginVertical: 25,
+    },
 })

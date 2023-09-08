@@ -1,20 +1,23 @@
-import { StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, TextStyle, TouchableOpacity, ViewStyle } from 'react-native';
 import React, { FC } from 'react';
 import { Colors } from '../theme/colors';
+import { getFontSizeByWindowWidth } from '../utils/window.util';
 
 interface ICSButton {
     text: string;
     onPress?: () => void;
+    buttonStyle?: ViewStyle;
+    textStyle?: TextStyle;
 }
-const CSButton: FC<ICSButton> = ({ text, onPress }) => {
+const CSButton: FC<ICSButton> = ({ text, onPress, buttonStyle, textStyle }) => {
     return (
-        <TouchableOpacity style={styles.container} onPress={onPress}>
-            <Text style={styles.text}>{text}</Text>
+        <TouchableOpacity style={[styles.container, buttonStyle]} onPress={onPress}>
+            <Text style={[styles.text, textStyle]}>{text}</Text>
         </TouchableOpacity>
     )
 }
 
-export default CSButton
+export default CSButton;
 
 const styles = StyleSheet.create({
     container: {
@@ -29,5 +32,6 @@ const styles = StyleSheet.create({
     text: {
         color: Colors.accent1000,
         fontWeight: 'bold',
+        fontSize: getFontSizeByWindowWidth(20)
     }
 })

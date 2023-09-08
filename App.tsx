@@ -1,16 +1,19 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { SafeAreaView, StyleSheet } from 'react-native';
 import MainLayout from './src/theme/mainLayout.cmp';
-import Login from './src/screens/login.screen';
+import { NavigationContainer } from '@react-navigation/native';
+import StackNavigator from './src/navigation/stack.routes';
 
-const App = () => {
+const App: FC = () => {
 
   return (
-    <MainLayout>
-      <SafeAreaView>
-        <Login />
-      </SafeAreaView>
-    </MainLayout>
+    <NavigationContainer>
+      <MainLayout>
+        <SafeAreaView style={{ flex: 1 }}>
+          <StackNavigator />
+        </SafeAreaView>
+      </MainLayout>
+    </NavigationContainer>
   );
 }
 

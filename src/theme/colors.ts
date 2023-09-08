@@ -4,5 +4,8 @@ export const Colors = {
     primary400: '#4F4557',
     accent1000: '#F4EEE0',
     contrast: '#F15A59',
-    white: '#ffffff'
+    white: '#ffffff',
+    facebook: "#1877F2",
+    google: "#DB4437",
+    apple: "#000000"
 }
