@@ -3,21 +3,24 @@ import { StyleSheet, View } from 'react-native'
 import { CsButton, CsInput, CsText } from '../components'
 import { ECSTextTypes } from '../components/text.cmp'
 
-const Login = () => {
+const Register = () => {
     return (
         <View style={styles.container}>
             <CsText type={ECSTextTypes.Biggest}>CineSphere</CsText>
-            <CsText type={ECSTextTypes.Bigger} style={{ marginBottom: 20 }}>Login</CsText>
+            <CsText type={ECSTextTypes.Bigger} style={{ marginBottom: 20 }}>Register</CsText>
             <View style={styles.methodsContainer}>
                 <CsInput placeholder='Email' />
+                <CsInput placeholder='First name' />
+                <CsInput placeholder='Last name' />
                 <CsInput placeholder='Password' secureTextEntry />
-                <CsButton text="Login" />
+                <CsInput placeholder='Confirm Password' secureTextEntry />
+                <CsButton text="Register" />
             </View>
         </View>
     )
 }
 
-export default Login
+export default Register
 
 const styles = StyleSheet.create({
     container: {

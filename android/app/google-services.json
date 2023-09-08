@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "238082636592",
+    "project_id": "cinesphere-app",
+    "storage_bucket": "cinesphere-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:238082636592:android:2a4de191ca82cb26ef66f5",
+        "android_client_info": {
+          "package_name": "com.cinesphere"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "238082636592-e57mcl0vp9g9d483tdddp51qpiutqm6b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCheS3Ibq3r6mdIp_6bYZnnWbz6m_hFzl4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "238082636592-e57mcl0vp9g9d483tdddp51qpiutqm6b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
