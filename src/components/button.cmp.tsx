@@ -5,7 +5,7 @@ import { getFontSizeByWindowWidth } from '../utils/window.util';
 
 interface ICSButton {
     text: string;
-    onPress?: () => void;
+    onPress: () => void;
     buttonStyle?: ViewStyle;
     textStyle?: TextStyle;
 }

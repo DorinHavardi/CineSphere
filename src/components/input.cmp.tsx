@@ -8,9 +8,10 @@ interface ICSInput {
     keyboardType?: KeyboardTypeOptions;
     icon?: ReactNode;
     secureTextEntry?: boolean;
+    onChangeText: (value: string) => void;
 }
 
-const CSInput: FC<ICSInput> = ({ placeholder, keyboardType, icon, secureTextEntry }) => {
+const CSInput: FC<ICSInput> = ({ placeholder, keyboardType, icon, secureTextEntry, onChangeText }) => {
     return (
         <TextInput
             placeholder={placeholder}
@@ -18,6 +19,7 @@ const CSInput: FC<ICSInput> = ({ placeholder, keyboardType, icon, secureTextEntr
             placeholderTextColor={Colors.primary500}
             keyboardType={keyboardType}
             secureTextEntry={secureTextEntry}
+            onChangeText={onChangeText}
         />
     )
 }
