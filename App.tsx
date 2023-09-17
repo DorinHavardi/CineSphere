@@ -1,19 +1,38 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 import { SafeAreaView, StyleSheet } from 'react-native';
 import MainLayout from './src/theme/mainLayout.cmp';
 import { NavigationContainer } from '@react-navigation/native';
 import StackNavigator from './src/navigation/stack.routes';
+import { Provider, useSelector } from 'react-redux';
+import TabNavigator from './src/navigation/tab.routes';
+import { PersistGate } from 'redux-persist/integration/react';
+import { persistor, store } from './src/store/store';
+
+export const MainApp: FC = () => {
+  const { user } = useSelector(state => state.auth);
+  console.log("user", user)
+  useEffect(() => {
+  }, [user])
+
+  return (
+    <MainLayout>
+      <SafeAreaView style={{ flex: 1 }}>
+        {user ? <TabNavigator /> : <StackNavigator />}
+      </SafeAreaView>
+    </MainLayout>
+  );
+}
 
 const App: FC = () => {
 
   return (
-    <NavigationContainer>
-      <MainLayout>
-        <SafeAreaView style={{ flex: 1 }}>
-          <StackNavigator />
-        </SafeAreaView>
-      </MainLayout>
-    </NavigationContainer>
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <NavigationContainer>
+          <MainApp />
+        </NavigationContainer>
+      </PersistGate>
+    </Provider>
   );
 }
 

@@ -2,13 +2,16 @@ import React, { useState } from 'react'
 import { Pressable, StyleSheet, View } from 'react-native'
 import { CsButton, CsInput, CsText } from '../components'
 import { ECSTextTypes } from '../components/text.cmp'
-import { signUpWithEmailPassword } from '../utils/firebase.util'
 import { SCREEN_HEIGHT } from '../utils/window.util'
 import { Colors } from '../theme/colors'
 import { useNavigation } from '@react-navigation/native'
+import { signUpWithEmailPassword } from '../utils/firebase.util'
+import { setUser } from '../store/reducers/auth.slice'
+import { useDispatch } from 'react-redux'
 
 const Register = () => {
     const navigation = useNavigation();
+    const dispatch = useDispatch();
 
     const [email, setEmail] = useState<string>("")
     const [firstName, setFirstName] = useState<string>("")
@@ -30,8 +33,9 @@ const Register = () => {
                     text="Register"
                     onPress={() => {
                         signUpWithEmailPassword(email, password)
-                            .then(() => {
-                                navigation.navigate('Main');
+                            .then((user) => {
+                                dispatch(setUser(user))
+                                // navigation.navigate('Main');
                             })
                             .catch(error => {
                                 console.error(error);
