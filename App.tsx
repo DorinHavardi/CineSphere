@@ -1,5 +1,5 @@
 import React, { FC, useEffect } from 'react';
-import { SafeAreaView, StyleSheet } from 'react-native';
+import { SafeAreaView, StatusBar, StyleSheet } from 'react-native';
 import MainLayout from './src/theme/mainLayout.cmp';
 import { NavigationContainer } from '@react-navigation/native';
 import StackNavigator from './src/navigation/stack.routes';
@@ -16,6 +16,7 @@ export const MainApp: FC = () => {
 
   return (
     <MainLayout>
+      <StatusBar barStyle={'light-content'} />
       <SafeAreaView style={{ flex: 1 }}>
         {user ? <TabNavigator /> : <StackNavigator />}
       </SafeAreaView>

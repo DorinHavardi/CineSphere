@@ -7,7 +7,7 @@ export interface IUser {
     lastName: string;
 }
 
-interface IAuthState {
+export interface IAuthState {
     user: IUser | null;
     error: string | null;
 }

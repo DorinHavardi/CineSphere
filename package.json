@@ -12,6 +12,11 @@
     "test": "jest"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.4.2",
+    "@fortawesome/free-brands-svg-icons": "^6.4.2",
+    "@fortawesome/free-regular-svg-icons": "^6.4.2",
+    "@fortawesome/free-solid-svg-icons": "^6.4.2",
+    "@fortawesome/react-native-fontawesome": "^0.3.0",
     "@react-native-async-storage/async-storage": "^1.19.3",
     "@react-native-firebase/app": "^18.3.2",
     "@react-native-firebase/auth": "^18.3.2",
