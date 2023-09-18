@@ -38,6 +38,7 @@ const styles = StyleSheet.create({
     tabBarContainer: {
         backgroundColor: Colors.primary400,
         borderTopColor: "transparent",
+        height: 65,
     },
     tabBarLabel: {
         fontSize: getFontSizeByWindowWidth(18),

@@ -7,11 +7,11 @@ import { Colors } from '../theme/colors'
 import { useNavigation } from '@react-navigation/native'
 import { signUpWithEmailPassword } from '../utils/firebase.util'
 import { setUser } from '../store/reducers/auth.slice'
-import { useDispatch } from 'react-redux'
+import { useAppDispatch } from '../store/store'
 
 const Register = () => {
     const navigation = useNavigation();
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
 
     const [email, setEmail] = useState<string>("")
     const [firstName, setFirstName] = useState<string>("")

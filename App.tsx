@@ -10,7 +10,7 @@ import { persistor, store } from './src/store/store';
 
 export const MainApp: FC = () => {
   const { user } = useSelector(state => state.auth);
-  console.log("user", user)
+  // console.log("user", user)
   useEffect(() => {
   }, [user])
 
