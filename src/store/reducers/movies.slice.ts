@@ -4,7 +4,6 @@ import Config from 'react-native-config';
 
 export const fetchNewMovies = createAsyncThunk('movies/fetchNewMovies', async () => {
     const apiKey = Config.TMDB_API_KEY;
-    console.log("apiKey",apiKey)
     const response = await axios.get(`https://api.themoviedb.org/3/movie/now_playing?api_key=${apiKey}&language=en-US&page=1`);
     console.log("response", response.data.results);
     return response.data.results;

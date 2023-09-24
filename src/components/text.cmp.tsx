@@ -2,6 +2,7 @@ import { StyleProp, StyleSheet, Text, TextStyle } from 'react-native';
 import React, { FC, ReactNode } from 'react';
 import { getFontSizeByWindowWidth } from '../utils/window.util';
 import { Colors } from '../theme/colors';
+import { Fonts } from '../theme/fonts';
 
 export enum ECSTextTypes {
     Biggest = 'biggest',
@@ -39,19 +40,17 @@ export default CSText
 const styles = StyleSheet.create({
     biggest: {
         fontSize: getFontSizeByWindowWidth(40),
+        fontFamily: Fonts.Poppins_Bold,
         color: Colors.accent1000,
-        fontWeight: 'bold',
-
     },
     bigger: {
         fontSize: getFontSizeByWindowWidth(36),
+        fontFamily: Fonts.Poppins_Bold,
         color: Colors.accent1000,
-        fontWeight: 'bold',
-
     },
     small: {
         fontSize: getFontSizeByWindowWidth(16),
+        fontFamily: Fonts.Poppins_Regular,
         color: Colors.accent1000,
-
     },
 })

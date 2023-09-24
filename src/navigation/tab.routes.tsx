@@ -7,6 +7,7 @@ import { Colors } from '../theme/colors';
 import { getFontSizeByWindowWidth } from '../utils/window.util';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faHouse } from '@fortawesome/free-solid-svg-icons';
+import { Fonts } from '../theme/fonts';
 const Tab = createBottomTabNavigator();
 
 const TabNavigator = () => {
@@ -42,6 +43,7 @@ const styles = StyleSheet.create({
     },
     tabBarLabel: {
         fontSize: getFontSizeByWindowWidth(18),
+        fontFamily: Fonts.Poppins_Regular,
         color: Colors.accent1000
     }
 })

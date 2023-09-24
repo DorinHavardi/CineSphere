@@ -11,9 +11,9 @@ const Main: FC = () => {
     const status = useAppSelector((state) => state.movies.status);
     const error = useAppSelector((state) => state.movies.error);
 
-    console.log("Status:", status);
-    console.log("Number of movies:", movies.length);
-    console.log("error:", error);
+    // console.log("Status:", status);
+    // console.log("Number of movies:", movies.length);
+    // console.log("error:", error);
 
 
     useEffect(() => {
@@ -23,23 +23,27 @@ const Main: FC = () => {
     }, [status, dispatch]);
 
     interface MovieItem {
+        id: string | number;
         poster_path: string;
         title: string;
     }
 
-    const renderItem = ({ item }: { item: MovieItem }) => {
+    const renderItem = ({ item }: { item: MovieItem }, index: number) => {
         console.log("item", item)
         return (
-            <View style={styles.item}>
-                <Image source={{ uri: `https://image.tmdb.org/t/p/w500${item.poster_path}` }} style={styles.image} />
-                <Text>{item.title}</Text>
+            <View style={[styles.item]}>
+                <Image source={{ uri: `https://image.tmdb.org/t/p/w500${item.poster_path}` }} style={styles.image} resizeMode='cover' />
+                <Text style={{ color: Colors.white }}>{item.title}</Text>
             </View>
         )
     };
 
     return (
         <View style={styles.container}>
+            <Text style={{ color: Colors.white, }}>New Movies</Text>
             <FlatList
+                horizontal
+                showsHorizontalScrollIndicator={false}
                 data={movies}
                 renderItem={renderItem}
                 keyExtractor={(item) => item.id.toString()}
@@ -53,18 +57,21 @@ export default Main;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        alignItems: 'center',
+        // alignItems: 'center',
+        paddingHorizontal: 15,
         paddingTop: SCREEN_HEIGHT / 10,
         backgroundColor: Colors.primary1000,
     },
     item: {
         margin: 10,
-        flexDirection: 'row',
+        // flexDirection: 'row',
         alignItems: 'center',
     },
     image: {
-        width: 100,
-        height: 150,
-        marginRight: 10,
+        width: 140,
+        height: 220,
+        borderRadius: 6,
+        marginBottom: 10,
+
     },
 });

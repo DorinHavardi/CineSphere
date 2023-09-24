@@ -2,6 +2,7 @@ import { KeyboardTypeOptions, StyleSheet, TextInput } from 'react-native';
 import React, { FC, ReactNode } from 'react';
 import { Colors } from '../theme/colors';
 import { getFontSizeByWindowWidth } from '../utils/window.util';
+import { Fonts } from '../theme/fonts';
 
 interface ICSInput {
     placeholder?: string;
@@ -34,6 +35,8 @@ const styles = StyleSheet.create({
         borderBottomColor: Colors.primary500,
         borderBottomWidth: 2,
         marginBottom: 10,
-        fontSize: getFontSizeByWindowWidth(18)
+        fontSize: getFontSizeByWindowWidth(18),
+        fontFamily: Fonts.Poppins_Regular,
+
     }
 })

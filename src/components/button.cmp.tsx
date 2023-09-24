@@ -2,6 +2,7 @@ import { StyleSheet, Text, TextStyle, TouchableOpacity, ViewStyle } from 'react-
 import React, { FC } from 'react';
 import { Colors } from '../theme/colors';
 import { getFontSizeByWindowWidth } from '../utils/window.util';
+import { Fonts } from '../theme/fonts';
 
 interface ICSButton {
     text: string;
@@ -31,7 +32,7 @@ const styles = StyleSheet.create({
     },
     text: {
         color: Colors.accent1000,
-        fontWeight: 'bold',
-        fontSize: getFontSizeByWindowWidth(20)
+        fontSize: getFontSizeByWindowWidth(20),
+        fontFamily: Fonts.Poppins_Bold,
     }
 })
