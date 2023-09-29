@@ -2,12 +2,12 @@
 import { StyleSheet } from 'react-native';
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Main from '../screens/main.screen';
 import { Colors } from '../theme/colors';
-import { getFontSizeByWindowWidth } from '../utils/window.util';
+import { SCREEN_HEIGHT, getFontSizeByWindowWidth } from '../utils/window.util';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faHouse } from '@fortawesome/free-solid-svg-icons';
 import { Fonts } from '../theme/fonts';
+import MoviesRoutes from './movies.routes';
 const Tab = createBottomTabNavigator();
 
 const TabNavigator = () => {
@@ -20,7 +20,7 @@ const TabNavigator = () => {
         >
             <Tab.Screen
                 name="Main"
-                component={Main}
+                component={MoviesRoutes}
                 options={{
                     headerShown: false,
                     title: "Home",
@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     tabBarContainer: {
         backgroundColor: Colors.primary400,
         borderTopColor: "transparent",
-        height: 65,
+        height: SCREEN_HEIGHT / 9,
     },
     tabBarLabel: {
         fontSize: getFontSizeByWindowWidth(18),

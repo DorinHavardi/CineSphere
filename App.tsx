@@ -1,5 +1,5 @@
 import React, { FC, useEffect } from 'react';
-import { SafeAreaView, StatusBar, StyleSheet } from 'react-native';
+import { StatusBar, StyleSheet } from 'react-native';
 import MainLayout from './src/theme/mainLayout.cmp';
 import { NavigationContainer } from '@react-navigation/native';
 import StackNavigator from './src/navigation/stack.routes';
@@ -7,6 +7,7 @@ import { Provider, useSelector } from 'react-redux';
 import TabNavigator from './src/navigation/tab.routes';
 import { PersistGate } from 'redux-persist/integration/react';
 import { persistor, store } from './src/store/store';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export const MainApp: FC = () => {
   const { user } = useSelector(state => state.auth);

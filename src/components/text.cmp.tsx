@@ -7,6 +7,7 @@ import { Fonts } from '../theme/fonts';
 export enum ECSTextTypes {
     Biggest = 'biggest',
     Bigger = 'bigger',
+    Big = 'big',
     Small = 'small'
 }
 
@@ -25,6 +26,10 @@ const CSText: FC<ICSText> = ({ children, type, style, numberOfLines }) => {
     if (type === "bigger")
         return (
             <Text style={[styles.bigger, style]} numberOfLines={numberOfLines}>{children}</Text>
+        )
+    if (type === "big")
+        return (
+            <Text style={[styles.big, style]} numberOfLines={numberOfLines}>{children}</Text>
         )
     if (type === "small")
         return (
@@ -45,6 +50,11 @@ const styles = StyleSheet.create({
     },
     bigger: {
         fontSize: getFontSizeByWindowWidth(36),
+        fontFamily: Fonts.Poppins_Bold,
+        color: Colors.accent1000,
+    },
+    big: {
+        fontSize: getFontSizeByWindowWidth(30),
         fontFamily: Fonts.Poppins_Bold,
         color: Colors.accent1000,
     },
