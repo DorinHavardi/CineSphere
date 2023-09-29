@@ -5,8 +5,10 @@ import { useNavigation } from '@react-navigation/native';
 import { SCREEN_HEIGHT } from '../utils/window.util';
 import LinearGradient from 'react-native-linear-gradient';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
+import { faChevronLeft, faStar, } from '@fortawesome/free-solid-svg-icons';
 import CSText, { ECSTextTypes } from '../components/text.cmp';
+import { useSelector } from 'react-redux';
+import { getGenresNames, voteAverageToStarRating } from '../utils/movies.util';
 
 
 interface ISingleMovie {
@@ -16,12 +18,12 @@ interface ISingleMovie {
 const SingleMovie: FC<ISingleMovie> = ({ route }) => {
     const movie = route.params.movie;
     const navigation = useNavigation();
+    const { genres } = useSelector(state => state.movies)
 
     console.log("movie is: ", movie)
+    console.log("genres is: ", genres)
 
-    const getReleaseYear = (date: string) => {
-        return date?.split("-")[0];
-    }
+    const getReleaseYear = (date: string) => (date?.split("-")[0]);
 
     return (
         <>
@@ -46,10 +48,17 @@ const SingleMovie: FC<ISingleMovie> = ({ route }) => {
                 </TouchableOpacity>
             </ImageBackground>
             <View style={styles.container}>
-                <CSText type={ECSTextTypes.Big}>{movie.title}</CSText>
-                <CSText type={ECSTextTypes.Small} style={{marginBottom: 20}}>
-                     {getReleaseYear(movie.release_date)} | {movie.original_language.toUpperCase()}
-                </CSText>
+                <View style={{ alignItems: 'center' }}>
+                    <CSText type={ECSTextTypes.Big}>{movie.title}</CSText>
+                    <CSText type={ECSTextTypes.Small} style={{ marginBottom: 20, textAlign: 'center' }}>
+                        {getReleaseYear(movie.release_date)} | {getGenresNames(movie.genre_ids, genres)} | {movie.original_language.toUpperCase()}
+                    </CSText>
+                    <View style={{ flexDirection: 'row', marginBottom: 10, }}>
+                        {[...Array(5)].map((_, i) => {
+                            return <FontAwesomeIcon color={i < voteAverageToStarRating(movie.vote_average) ? Colors.gold : Colors.primary400} size={20} icon={faStar} key={i} style={{ marginEnd: 5 }} />
+                        })}
+                    </View>
+                </View>
                 <CSText type={ECSTextTypes.Small}>{movie.overview}</CSText>
             </View>
         </>

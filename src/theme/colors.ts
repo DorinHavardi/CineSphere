@@ -7,5 +7,6 @@ export const Colors = {
     white: '#ffffff',
     facebook: "#1877F2",
     google: "#DB4437",
-    apple: "#000000"
+    apple: "#000000",
+    gold: "#FFD700"
 }

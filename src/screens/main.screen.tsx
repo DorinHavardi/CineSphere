@@ -2,7 +2,7 @@ import { FlatList, Image, StyleSheet, TouchableOpacity, View } from 'react-nativ
 import React, { FC, useEffect } from 'react';
 import { SCREEN_HEIGHT } from '../utils/window.util';
 import { Colors } from '../theme/colors';
-import { fetchNewMovies } from '../store/reducers/movies.slice';
+import { fetchNewMovies, getMoviesGenres } from '../store/reducers/movies.slice';
 import { useAppDispatch, useAppSelector } from '../store/store';
 import CSText, { ECSTextTypes } from '../components/text.cmp';
 
@@ -17,6 +17,7 @@ const Main: FC<IMain> = ({ navigation }) => {
     useEffect(() => {
         if (status === 'idle') {
             dispatch(fetchNewMovies());
+            dispatch(getMoviesGenres());
         }
     }, [status, dispatch]);
 
@@ -30,7 +31,7 @@ const Main: FC<IMain> = ({ navigation }) => {
         return (
             <TouchableOpacity style={[styles.item]} onPress={() => navigation.navigate('singleMovie', { movie: item })}>
                 <Image source={{ uri: `https://image.tmdb.org/t/p/w500${item.poster_path}` }} style={styles.image} resizeMode='cover' />
-                <CSText style={{ color: Colors.white }} type={ECSTextTypes.Small}>{item.title}</CSText>
+                <CSText style={{ color: Colors.white, textAlign: 'center' }} type={ECSTextTypes.Small} maxLength={15}>{item.title}</CSText>
             </TouchableOpacity>
         )
     };

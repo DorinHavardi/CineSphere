@@ -16,27 +16,40 @@ interface ICSText {
     type: ECSTextTypes;
     style?: StyleProp<TextStyle>;
     numberOfLines?: number;
+    maxLength?: number;
 }
 
-const CSText: FC<ICSText> = ({ children, type, style, numberOfLines }) => {
-    if (type === "biggest")
-        return (
-            <Text style={[styles.biggest, style]} numberOfLines={numberOfLines}>{children}</Text>
-        )
-    if (type === "bigger")
-        return (
-            <Text style={[styles.bigger, style]} numberOfLines={numberOfLines}>{children}</Text>
-        )
-    if (type === "big")
-        return (
-            <Text style={[styles.big, style]} numberOfLines={numberOfLines}>{children}</Text>
-        )
-    if (type === "small")
-        return (
-            <Text style={[styles.small, style]} numberOfLines={numberOfLines}>{children}</Text>
-        )
+const CSText: FC<ICSText> = ({ children, type, style, numberOfLines, maxLength }) => {
+    let displayedText = children;
+
+    if (typeof children === "string" && maxLength) {
+        const segments = [];
+        let startIdx = 0;
+
+        while (startIdx < children.length) {
+            let endIdx = startIdx + maxLength;
+            if (endIdx < children.length) {
+                while (endIdx > startIdx && children[endIdx] !== ' ') {
+                    endIdx--;
+                }
+                if (endIdx === startIdx) {
+                    // Word is longer than maxLength, just break mid-word
+                    endIdx = startIdx + maxLength;
+                }
+            }
+            segments.push(children.slice(startIdx, endIdx));
+            startIdx = endIdx;
+        }
+
+        displayedText = segments.join('\n');
+    }
+
+    const textStyles = styles[type] || {};
+
     return (
-        <Text numberOfLines={numberOfLines}>{children}</Text>
+        <Text style={[textStyles, style]} numberOfLines={numberOfLines}>
+            {displayedText}
+        </Text>
     )
 }
 
