@@ -6,7 +6,8 @@
       "react-native",
       "jest",
       "node"
-    ]
+    ],
+    "allowSyntheticDefaultImports": true,
   },
   "extends": "@tsconfig/react-native/tsconfig.json"
 }

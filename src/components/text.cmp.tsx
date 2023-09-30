@@ -1,23 +1,9 @@
-import { StyleProp, StyleSheet, Text, TextStyle } from 'react-native';
-import React, { FC, ReactNode } from 'react';
+import { StyleSheet, Text } from 'react-native';
+import React, { FC } from 'react';
 import { getFontSizeByWindowWidth } from '../utils/window.util';
 import { Colors } from '../theme/colors';
 import { Fonts } from '../theme/fonts';
-
-export enum ECSTextTypes {
-    Biggest = 'biggest',
-    Bigger = 'bigger',
-    Big = 'big',
-    Small = 'small'
-}
-
-interface ICSText {
-    children: ReactNode;
-    type: ECSTextTypes;
-    style?: StyleProp<TextStyle>;
-    numberOfLines?: number;
-    maxLength?: number;
-}
+import { ICSText } from '../interfaces/ICSText';
 
 const CSText: FC<ICSText> = ({ children, type, style, numberOfLines, maxLength }) => {
     let displayedText = children;
@@ -72,7 +58,17 @@ const styles = StyleSheet.create({
         color: Colors.accent1000,
     },
     small: {
+        fontSize: getFontSizeByWindowWidth(18),
+        fontFamily: Fonts.Poppins_Regular,
+        color: Colors.accent1000,
+    },
+    smaller: {
         fontSize: getFontSizeByWindowWidth(16),
+        fontFamily: Fonts.Poppins_Regular,
+        color: Colors.accent1000,
+    },
+    smallest: {
+        fontSize: getFontSizeByWindowWidth(14),
         fontFamily: Fonts.Poppins_Regular,
         color: Colors.accent1000,
     },

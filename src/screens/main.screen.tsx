@@ -1,10 +1,13 @@
-import { FlatList, Image, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { FlatList, Image, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
 import React, { FC, useEffect } from 'react';
 import { SCREEN_HEIGHT } from '../utils/window.util';
 import { Colors } from '../theme/colors';
-import { fetchNewMovies, getMoviesGenres } from '../store/reducers/movies.slice';
+import { fetchNewMovies, fetchUpcomingMovies, getMoviesGenres, setSelectedMovie } from '../store/reducers/movies.slice';
 import { useAppDispatch, useAppSelector } from '../store/store';
-import CSText, { ECSTextTypes } from '../components/text.cmp';
+import CSText from '../components/text.cmp';
+import { IMovie } from '../interfaces/IMovie';
+import { ECSTextTypes } from '../enums/ECSTextTypes';
+import { setIsTabBarVisible } from '../store/reducers/system.slice';
 
 interface IMain {
     navigation: any;
@@ -13,23 +16,23 @@ interface IMain {
 const Main: FC<IMain> = ({ navigation }) => {
     const dispatch = useAppDispatch();
     const { movies, status } = useAppSelector((state) => state.movies);
+    const { newMovies, upcomingMovies } = movies
 
     useEffect(() => {
         if (status === 'idle') {
             dispatch(fetchNewMovies());
+            dispatch(fetchUpcomingMovies());
             dispatch(getMoviesGenres());
         }
     }, [status, dispatch]);
 
-    interface MovieItem {
-        id: string | number;
-        poster_path: string;
-        title: string;
-    }
-
-    const renderItem = ({ item }: { item: MovieItem }, index: number) => {
+    const renderItem = ({ item }: { item: IMovie }, index: number) => {
         return (
-            <TouchableOpacity style={[styles.item]} onPress={() => navigation.navigate('singleMovie', { movie: item })}>
+            <TouchableOpacity style={[styles.item]} onPress={() => {
+                dispatch(setSelectedMovie(item))
+                dispatch(setIsTabBarVisible(false))
+                navigation.navigate('singleMovie', { movie: item })
+            }}>
                 <Image source={{ uri: `https://image.tmdb.org/t/p/w500${item.poster_path}` }} style={styles.image} resizeMode='cover' />
                 <CSText style={{ color: Colors.white, textAlign: 'center' }} type={ECSTextTypes.Small} maxLength={15}>{item.title}</CSText>
             </TouchableOpacity>
@@ -37,16 +40,26 @@ const Main: FC<IMain> = ({ navigation }) => {
     };
 
     return (
-        <View style={styles.container}>
+        <ScrollView style={styles.container} showsVerticalScrollIndicator={false} alwaysBounceVertical={true}>
             <CSText style={{ color: Colors.white, }} type={ECSTextTypes.Big}>New Movies</CSText>
             <FlatList
                 horizontal
                 showsHorizontalScrollIndicator={false}
-                data={movies}
+                data={newMovies}
                 renderItem={renderItem}
                 keyExtractor={(item) => item.id.toString()}
+                style={styles.flatlist}
             />
-        </View>
+            <CSText style={{ color: Colors.white, }} type={ECSTextTypes.Big}>Upcoming Movies</CSText>
+            <FlatList
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                data={upcomingMovies}
+                renderItem={renderItem}
+                keyExtractor={(item) => item.id.toString()}
+                style={styles.flatlist}
+            />
+        </ScrollView>
     );
 };
 export default Main;
@@ -70,4 +83,6 @@ const styles = StyleSheet.create({
         marginBottom: 10,
 
     },
+    flatlist: {
+    }
 });

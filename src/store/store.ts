@@ -1,10 +1,11 @@
 import { configureStore, createImmutableStateInvariantMiddleware, createSerializableStateInvariantMiddleware } from "@reduxjs/toolkit";
-import authReducer from "./reducers/auth.slice";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { persistReducer, persistStore } from "redux-persist";
-import moviesReducer from "./reducers/movies.slice";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import thunk from "redux-thunk";
+import authReducer from "./reducers/auth.slice";
+import moviesReducer from "./reducers/movies.slice";
+import systemReducer from "./reducers/system.slice";
 
 const persistConfig = {
     key: 'auth',
@@ -23,6 +24,7 @@ export const store = configureStore({
     reducer: {
         auth: persistedReducer,
         movies: moviesReducer,
+        system: systemReducer
     },
     middleware: [
         thunk,

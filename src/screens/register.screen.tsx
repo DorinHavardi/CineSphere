@@ -1,13 +1,13 @@
 import React, { useState } from 'react'
 import { Pressable, StyleSheet, View } from 'react-native'
 import { CsButton, CsInput, CsText } from '../components'
-import { ECSTextTypes } from '../components/text.cmp'
 import { SCREEN_HEIGHT } from '../utils/window.util'
 import { Colors } from '../theme/colors'
 import { useNavigation } from '@react-navigation/native'
 import { signUpWithEmailPassword } from '../utils/firebase.util'
 import { setUser } from '../store/reducers/auth.slice'
 import { useAppDispatch } from '../store/store'
+import { ECSTextTypes } from '../enums/ECSTextTypes'
 
 const Register = () => {
     const navigation = useNavigation();

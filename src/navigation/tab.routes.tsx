@@ -8,14 +8,18 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faHouse } from '@fortawesome/free-solid-svg-icons';
 import { Fonts } from '../theme/fonts';
 import MoviesRoutes from './movies.routes';
+import { useAppSelector } from '../store/store';
 const Tab = createBottomTabNavigator();
 
 const TabNavigator = () => {
+    const { isTabBarVisible } = useAppSelector((state) => state.system)
+
     return (
         <Tab.Navigator
+            sceneContainerStyle={{ backgroundColor: Colors.primary1000 }}
             screenOptions={{
                 headerShown: false,
-                tabBarStyle: styles.tabBarContainer
+                tabBarStyle: [styles.tabBarContainer, { display: isTabBarVisible ? 'flex' : 'none' }]
             }}
         >
             <Tab.Screen

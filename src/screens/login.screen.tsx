@@ -1,12 +1,12 @@
 import React, { FC, useState } from 'react'
 import { Pressable, StyleSheet, View } from 'react-native'
 import { CsButton, CsInput, CsSocialConnect, CsText } from '../components'
-import { ECSTextTypes } from '../components/text.cmp'
 import { Colors } from '../theme/colors'
 import { ESocialConnectButtonTypes } from '../components/socialButton.cmp'
 import { useNavigation } from '@react-navigation/native'
 import { signInWithEmailPassword } from '../utils/firebase.util'
 import { SCREEN_HEIGHT } from '../utils/window.util'
+import { ECSTextTypes } from '../enums/ECSTextTypes'
 
 const Login: FC = ({ }) => {
     const navigation = useNavigation();

@@ -1,15 +1,10 @@
-
+import { IGenre } from "../interfaces/IGenre";
 
 // GENRES 
-export interface IGenre {
-    id: number;
-    name: string;
-}
-
 export const getGenresNames = (genreIds: number[], genres: IGenre[]): string[] | null => {
-    return genreIds.map(genreId => {
+    return genreIds.map((genreId, i) => {
         const genre = genres.find(g => g.id === genreId);
-        return genre ? `${genre.name} ` : "Unknown";
+        return genre && i !== genreIds.length - 1 ? `${genre.name}, ` : genre && i === genreIds.length - 1 ? `${genre.name} ` : "Unknown";
     })
 }
 
