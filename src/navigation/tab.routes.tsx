@@ -1,14 +1,16 @@
 
-import { StyleSheet } from 'react-native';
 import React from 'react';
+import { StyleSheet } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Colors } from '../theme/colors';
-import { SCREEN_HEIGHT, getFontSizeByWindowWidth } from '../utils/window.util';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faHouse } from '@fortawesome/free-solid-svg-icons';
+import { Colors } from '../theme/colors';
 import { Fonts } from '../theme/fonts';
+import { SCREEN_HEIGHT, getFontSizeByWindowWidth } from '../utils/window.util';
 import MoviesRoutes from './movies.routes';
 import { useAppSelector } from '../store/store';
+import { ETabNavigator } from '../enums/ETabNavigator';
+
 const Tab = createBottomTabNavigator();
 
 const TabNavigator = () => {
@@ -23,7 +25,7 @@ const TabNavigator = () => {
             }}
         >
             <Tab.Screen
-                name="Main"
+                name={ETabNavigator.MoviesRoutes}
                 component={MoviesRoutes}
                 options={{
                     headerShown: false,
