@@ -2,8 +2,8 @@ import React, { FC } from 'react';
 import { StyleSheet } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { EMainStackNavigator } from '../enums/EMainStackNavigator';
-import Login from '../screens/login.screen';
-import Register from '../screens/register.screen';
+import Login from '../screens/login/login.screen';
+import Register from '../screens/register/register.screen';
 
 const Stack = createNativeStackNavigator();
 

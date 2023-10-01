@@ -1,5 +1,9 @@
 {
     "title": "CineSphere",
+    "tabs": {
+        "movies": "Movies",
+        "profile": "Profile"
+    },
     "placeholders": {
         "email": "Email",
         "firstName": "First Name",
@@ -10,11 +14,11 @@
     "login": {
         "title": "Login",
         "socialLoginSubtitle": "Or sign in with",
-        "dontHaveAnAccount": "Dont have an account?"
+        "dontHaveAnAccount": "Dont have an account? "
     },
     "register": {
         "title": "Register",
-        "alreadyHaveAnAccount": "Already have an account?"
+        "alreadyHaveAnAccount": "Already have an account? "
     },
     "main": {
         "sectionTitle": "{{category}} Movies",
@@ -22,5 +26,9 @@
             "new": "New",
             "upcoming": "Upcoming"
         }
+    },
+    "profile": {
+        "title": "Hi {{username}}",
+        "logout": "Logout"
     }
 }

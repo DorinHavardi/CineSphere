@@ -2,13 +2,13 @@ import React, { FC, useState } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
-import { CsButton, CsInput, CsSocialConnect, CsText } from '../components';
-import { Colors } from '../theme/colors';
-import { signInWithEmailPassword } from '../utils/firebase.util';
-import { SCREEN_HEIGHT } from '../utils/window.util';
-import { ECSTextTypes } from '../enums/ECSTextTypes';
-import { ESocialConnectButtonTypes } from '../enums/ESocialConnectButtonTypes';
-import { EMainStackNavigator } from '../enums/EMainStackNavigator';
+import { CsButton, CsInput, CsSocialConnect, CsText } from '../../components';
+import { Colors } from '../../theme/colors';
+import { signInWithEmailPassword } from '../../utils/firebase.util';
+import { SCREEN_HEIGHT } from '../../utils/window.util';
+import { ECSTextTypes } from '../../enums/ECSTextTypes';
+import { ESocialConnectButtonTypes } from '../../enums/ESocialConnectButtonTypes';
+import { EMainStackNavigator } from '../../enums/EMainStackNavigator';
 
 const Login: FC = () => {
     const navigation = useNavigation();

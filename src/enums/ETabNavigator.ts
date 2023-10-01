@@ -1,3 +1,4 @@
 export enum ETabNavigator {
-    MoviesRoutes = 'moviesRoutes'
+    MoviesRoutes = 'moviesRoutes',
+    Profile = 'profile'
 }

@@ -2,14 +2,14 @@ import React, { useState } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
-import { CsButton, CsInput, CsText } from '../components';
-import { SCREEN_HEIGHT } from '../utils/window.util';
-import { Colors } from '../theme/colors';
-import { signUpWithEmailPassword } from '../utils/firebase.util';
-import { setUser } from '../store/reducers/auth.slice';
-import { useAppDispatch } from '../store/store';
-import { ECSTextTypes } from '../enums/ECSTextTypes';
-import { EMainStackNavigator } from '../enums/EMainStackNavigator';
+import { CsButton, CsInput, CsText } from '../../components';
+import { SCREEN_HEIGHT } from '../../utils/window.util';
+import { Colors } from '../../theme/colors';
+import { signUpWithEmailPassword } from '../../utils/firebase.util';
+import { setUser } from '../../store/reducers/auth.slice';
+import { useAppDispatch } from '../../store/store';
+import { ECSTextTypes } from '../../enums/ECSTextTypes';
+import { EMainStackNavigator } from '../../enums/EMainStackNavigator';
 
 const Register = () => {
     const navigation = useNavigation();
@@ -36,7 +36,7 @@ const Register = () => {
                     text={t("register.title")}
                     buttonStyle={{ marginTop: 50 }}
                     onPress={() => {
-                        signUpWithEmailPassword(email, password)
+                        signUpWithEmailPassword(email, password, firstName, lastName)
                             .then((user) => {
                                 dispatch(setUser(user))
                                 // navigation.navigate('Main');
