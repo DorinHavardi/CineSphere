@@ -1,0 +1,26 @@
+{
+    "title": "CineSphere",
+    "placeholders": {
+        "email": "Email",
+        "firstName": "First Name",
+        "lastName": "Last Name",
+        "password": "Password",
+        "confirmPassword": "Confirm Password"
+    },
+    "login": {
+        "title": "Login",
+        "socialLoginSubtitle": "Or sign in with",
+        "dontHaveAnAccount": "Dont have an account?"
+    },
+    "register": {
+        "title": "Register",
+        "alreadyHaveAnAccount": "Already have an account?"
+    },
+    "main": {
+        "sectionTitle": "{{category}} Movies",
+        "titleOptions": {
+            "new": "New",
+            "upcoming": "Upcoming"
+        }
+    }
+}

@@ -46,6 +46,14 @@ const styles = StyleSheet.create({
         backgroundColor: Colors.primary400,
         borderTopColor: "transparent",
         height: SCREEN_HEIGHT / 9,
+        shadowOffset: {
+            width: 0,
+            height: 12,
+        },
+        shadowOpacity: 0.58,
+        shadowRadius: 16.0,
+        elevation: 24,
+        shadowColor: Colors.black
     },
     tabBarLabel: {
         fontSize: getFontSizeByWindowWidth(18),

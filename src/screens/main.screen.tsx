@@ -1,5 +1,6 @@
 import { FlatList, Image, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
 import React, { FC, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { SCREEN_HEIGHT } from '../utils/window.util';
 import { Colors } from '../theme/colors';
 import { fetchNewMovies, fetchUpcomingMovies, getMoviesGenres, setSelectedMovie } from '../store/reducers/movies.slice';
@@ -15,6 +16,7 @@ interface IMain {
 
 const Main: FC<IMain> = ({ navigation }) => {
     const dispatch = useAppDispatch();
+    const { t } = useTranslation();
     const { movies, status } = useAppSelector((state) => state.movies);
     const { newMovies, upcomingMovies } = movies
 
@@ -41,7 +43,7 @@ const Main: FC<IMain> = ({ navigation }) => {
 
     return (
         <ScrollView style={styles.container} showsVerticalScrollIndicator={false} alwaysBounceVertical={true}>
-            <CSText style={{ color: Colors.white, }} type={ECSTextTypes.Big}>New Movies</CSText>
+            <CSText style={{ color: Colors.white, }} type={ECSTextTypes.Big}>{t('main.sectionTitle', { category: t('main.titleOptions.new') })}</CSText>
             <FlatList
                 horizontal
                 showsHorizontalScrollIndicator={false}
@@ -50,7 +52,7 @@ const Main: FC<IMain> = ({ navigation }) => {
                 keyExtractor={(item) => item.id.toString()}
                 style={styles.flatlist}
             />
-            <CSText style={{ color: Colors.white, }} type={ECSTextTypes.Big}>Upcoming Movies</CSText>
+            <CSText style={{ color: Colors.white, }} type={ECSTextTypes.Big}>{t('main.sectionTitle', { category: t('main.titleOptions.upcoming') })}</CSText>
             <FlatList
                 horizontal
                 showsHorizontalScrollIndicator={false}

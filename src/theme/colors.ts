@@ -5,6 +5,7 @@ export const Colors = {
     accent1000: '#F4EEE0',
     contrast: '#F15A59',
     white: '#ffffff',
+    black: '#000000',
     facebook: "#1877F2",
     google: "#DB4437",
     apple: "#000000",
