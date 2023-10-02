@@ -4,15 +4,19 @@ import { useNavigation } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
 import { CsButton, CsInput, CsSocialConnect, CsText } from '../../components';
 import { Colors } from '../../theme/colors';
-import { signInWithEmailPassword } from '../../utils/firebase.util';
+import { signInWithEmailPassword, signInWithGoogle } from '../../utils/firebase.util';
 import { SCREEN_HEIGHT } from '../../utils/window.util';
 import { ECSTextTypes } from '../../enums/ECSTextTypes';
 import { ESocialConnectButtonTypes } from '../../enums/ESocialConnectButtonTypes';
 import { EMainStackNavigator } from '../../enums/EMainStackNavigator';
+import { useAppDispatch, useAppSelector } from '../../store/store';
+import { setUser } from '../../store/reducers/auth.slice';
 
 const Login: FC = () => {
     const navigation = useNavigation();
+    const dispatch = useAppDispatch();
     const { t } = useTranslation();
+    const { user } = useAppSelector(state => state.auth)
 
     const [email, setEmail] = useState<string>("")
     const [password, setPassword] = useState<string>("")
@@ -28,9 +32,23 @@ const Login: FC = () => {
                 <View style={styles.socialConnectContainer}>
                     <CsText type={ECSTextTypes.Small} style={styles.noAccountText}>{t('login.socialLoginSubtitle')} </CsText>
                     <View style={styles.socialButtonsContainer}>
-                        <CsSocialConnect type={ESocialConnectButtonTypes.Facebook} />
-                        <CsSocialConnect type={ESocialConnectButtonTypes.Google} />
-                        <CsSocialConnect type={ESocialConnectButtonTypes.Apple} />
+                        {/* <CsSocialConnect type={ESocialConnectButtonTypes.Facebook} /> */}
+                        <CsSocialConnect
+                            onPress={() => {
+                                signInWithGoogle().then(googleUser => {
+                                    const userData = {
+                                        email: googleUser?.user?.email,
+                                        displayName: googleUser?.user?.displayName,
+                                        photoURL: googleUser?.user?.photoURL,
+                                        // ... any other relevant fields
+                                    };
+                                    dispatch(setUser(userData))
+                                }).catch(error => {
+                                    console.error("Google sign-in error: ", error)
+                                })
+                            }}
+                            type={ESocialConnectButtonTypes.Google} />
+                        {/* <CsSocialConnect type={ESocialConnectButtonTypes.Apple} /> */}
                     </View>
                 </View>
             </View>

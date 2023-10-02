@@ -8,12 +8,13 @@ const BUTTON_SIZE = 60;
 
 interface ISocialConnectButton {
     type: ESocialConnectButtonTypes;
+    onPress: () => void;
 }
 
-const SocialConnectButton: FC<ISocialConnectButton> = ({ type }) => {
-    if (type === 'facebook') return <TouchableOpacity style={[styles.button, { backgroundColor: Colors.facebook }]}><FacebookIcon /></TouchableOpacity>
-    if (type === 'google') return <TouchableOpacity style={[styles.button, { backgroundColor: Colors.google }]}><GoogleIcon /></TouchableOpacity>
-    if (type === 'apple') return <TouchableOpacity style={[styles.button, { backgroundColor: Colors.apple }]}><AppleIcon /></TouchableOpacity>
+const SocialConnectButton: FC<ISocialConnectButton> = ({ type, onPress }) => {
+    if (type === 'facebook') return <TouchableOpacity onPress={onPress} style={[styles.button, { backgroundColor: Colors.facebook }]}><FacebookIcon /></TouchableOpacity>
+    if (type === 'google') return <TouchableOpacity onPress={onPress} style={[styles.button, { backgroundColor: Colors.google }]}><GoogleIcon /></TouchableOpacity>
+    if (type === 'apple') return <TouchableOpacity onPress={onPress} style={[styles.button, { backgroundColor: Colors.apple }]}><AppleIcon /></TouchableOpacity>
 
     return null;
 }

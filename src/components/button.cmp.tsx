@@ -9,11 +9,28 @@ interface ICSButton {
     onPress: () => void;
     buttonStyle?: ViewStyle;
     textStyle?: TextStyle;
+    outlined?: boolean;
 }
-const CSButton: FC<ICSButton> = ({ text, onPress, buttonStyle, textStyle }) => {
+const CSButton: FC<ICSButton> = ({ text, onPress, buttonStyle, textStyle, outlined }) => {
     return (
-        <TouchableOpacity style={[styles.container, buttonStyle]} onPress={onPress}>
-            <Text style={[styles.text, textStyle]}>{text}</Text>
+        <TouchableOpacity
+            style={[
+                styles.container,
+                {
+                    backgroundColor: outlined ? 'transparent' : Colors.contrast,
+                    borderWidth: outlined ? 1 : undefined,
+                    borderColor: outlined ? Colors.accent1000 : undefined
+                },
+                buttonStyle
+            ]}
+            onPress={onPress}
+        >
+            <Text
+                style={[
+                    styles.text,
+                    { fontFamily: outlined ? Fonts.Poppins_Light : Fonts.Poppins_Bold },
+                    textStyle
+                ]}>{text}</Text>
         </TouchableOpacity>
     )
 }

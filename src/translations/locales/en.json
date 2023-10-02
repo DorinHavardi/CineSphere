@@ -29,6 +29,7 @@
     },
     "profile": {
         "title": "Hi {{username}}",
+        "save": "Save",
         "logout": "Logout"
     }
 }

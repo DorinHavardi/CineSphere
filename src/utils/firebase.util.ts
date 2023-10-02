@@ -1,4 +1,22 @@
 import auth from '@react-native-firebase/auth';
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
+
+export const signInWithGoogle = async () => {
+    try {
+        // Check if your device supports Google Play
+        await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
+        // Get the users ID token
+        const { idToken } = await GoogleSignin.signIn();
+
+        // Create a Google credential with the token
+        const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+
+        // Sign-in the user with the credential
+        return auth().signInWithCredential(googleCredential);
+    } catch (error) {
+        console.error("Google Sign-In Error", error);
+    }
+}
 
 export const signUpWithEmailPassword = async (email: string, password: string, firstName: string, lastName: string) => {
     try {
@@ -17,10 +35,10 @@ export const signUpWithEmailPassword = async (email: string, password: string, f
         return user;
     } catch (error: any) {
         if (error.code === 'auth/email-already-in-use') {
-            console.log('That email address is already in use!');
+            console.error('That email address is already in use!');
         }
         if (error.code === 'auth/invalid-email') {
-            console.log('That email address is invalid!');
+            console.error('That email address is invalid!');
         }
         console.error(error);
     }
