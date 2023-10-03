@@ -21,10 +21,12 @@ const Main: FC<IMain> = ({ navigation }) => {
     const { newMovies, upcomingMovies } = movies
 
     useEffect(() => {
+        // dispatch(setIsLoading(false));
         if (status === 'idle') {
             dispatch(fetchNewMovies());
             dispatch(fetchUpcomingMovies());
             dispatch(getMoviesGenres());
+
         }
     }, [status, dispatch]);
 

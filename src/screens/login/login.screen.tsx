@@ -35,6 +35,7 @@ const Login: FC = () => {
                         {/* <CsSocialConnect type={ESocialConnectButtonTypes.Facebook} /> */}
                         <CsSocialConnect
                             onPress={() => {
+                                // dispatch(setIsLoading(true))
                                 signInWithGoogle().then(googleUser => {
                                     const userData = {
                                         email: googleUser?.user?.email,
@@ -45,6 +46,10 @@ const Login: FC = () => {
                                     dispatch(setUser(userData))
                                 }).catch(error => {
                                     console.error("Google sign-in error: ", error)
+                                    // dispatch(setIsLoading(false))
+
+                                }).finally(() => {
+                                    // dispatch(setIsLoading(false))
                                 })
                             }}
                             type={ESocialConnectButtonTypes.Google} />
