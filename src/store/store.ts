@@ -2,7 +2,6 @@ import { configureStore, createImmutableStateInvariantMiddleware, createSerializ
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { persistReducer, persistStore } from "redux-persist";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
-import thunk from "redux-thunk";
 import authReducer from "./reducers/auth.slice";
 import moviesReducer from "./reducers/movies.slice";
 import systemReducer from "./reducers/system.slice";
@@ -26,12 +25,21 @@ export const store = configureStore({
         movies: moviesReducer,
         system: systemReducer
     },
-    middleware: [
-        thunk,
-        getSerializableMiddleware(),
-        createImmutableStateInvariantMiddleware(),
-    ]
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware({
+        serializableCheck: {
+            // Ignore these action types
+            ignoredActions: ['persist/PERSIST'],
+            // Ignore these field paths in all actions and states
+            ignoredPaths: ['auth']
+        },
+        immutableCheck: true,
+    })
+        .concat([
+            getSerializableMiddleware(),
+            createImmutableStateInvariantMiddleware(),
+        ])
 });
+
 
 export const persistor = persistStore(store);
 

@@ -31,12 +31,12 @@ const Profile: FC = () => {
         <SafeAreaView style={styles.container}>
             <Image source={{ uri: photoURL }} style={styles.image} />
             <CsInput
-                placeholder={t('placeholders.firstName')}
+                placeholder={t('placeholdersfirst_name')}
                 onChangeText={(value: string) => setNewFirstName(value)}
                 value={newFirstName}
             />
             <CsInput
-                placeholder={t('placeholders.lastName')}
+                placeholder={t('placeholderslast_name')}
                 onChangeText={(value: string) => setNewLastName(value)}
                 value={newLastName}
             />
@@ -44,7 +44,6 @@ const Profile: FC = () => {
                 text={t('profile.save')}
                 buttonStyle={styles.logOutBtn}
                 onPress={() => {
-                    console.log('save new details');
                 }}
             />
             <View style={styles.buttonsContainer}>

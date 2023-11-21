@@ -1,18 +1,18 @@
 import { Image, ImageBackground, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
 import React, { FC, useEffect } from 'react';
-import { Colors } from '../theme/colors';
+import { Colors } from '../../theme/colors';
 import { useNavigation } from '@react-navigation/native';
-import { SCREEN_HEIGHT } from '../utils/window.util';
+import { SCREEN_HEIGHT } from '../../utils/window.util';
 import LinearGradient from 'react-native-linear-gradient';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faChevronLeft, faStar, } from '@fortawesome/free-solid-svg-icons';
-import CSText from '../components/text.cmp';
-import { getGenresNames, voteAverageToStarRating } from '../utils/movies.util';
-import { ECSTextTypes } from '../enums/ECSTextTypes';
-import { getMovieCast } from '../store/reducers/movies.slice';
-import { ICast } from '../interfaces/ICast';
-import { setIsTabBarVisible } from '../store/reducers/system.slice';
-import { useAppDispatch, useAppSelector } from '../store/store';
+import CSText from '../../components/text.cmp';
+import { getGenresNames, voteAverageToStarRating } from '../../utils/movies.util';
+import { ECSTextTypes } from '../../enums/ECSTextTypes';
+import { ICast } from '../../interfaces/ICast';
+import { setIsTabBarVisible } from '../../store/reducers/system.slice';
+import { useAppDispatch, useAppSelector } from '../../store/store';
+import { getMovieCast } from '../../store/thunks/movies.thunk';
 
 
 interface ISingleMovie {
@@ -74,13 +74,12 @@ const SingleMovie: FC<ISingleMovie> = ({ route }) => {
                 <CSText type={ECSTextTypes.Smaller}>{movie.overview}</CSText>
                 <CSText type={ECSTextTypes.Small} style={{ marginVertical: 10, fontWeight: 'bold' }}>Cast</CSText>
                 <ScrollView style={{ flexDirection: 'row' }} horizontal showsHorizontalScrollIndicator={false}>
-                    {selectedMovie.cast && selectedMovie.cast.map((actor: ICast, index: number) => {
+                    {selectedMovie?.cast && selectedMovie.cast.map((actor: ICast, index: number) => {
                         if (index < 5)
                             return (
-                                <View style={{ flexDirection: 'column', alignItems: 'center', marginHorizontal: 10 }}>
+                                <View style={{ flexDirection: 'column', alignItems: 'center', marginHorizontal: 10 }} key={index}>
                                     <Image style={styles.actorImage} source={{ uri: `https://image.tmdb.org/t/p/w500${actor.profile_path}` }} />
                                     <CSText type={ECSTextTypes.Smaller} style={{ textAlign: 'center' }} maxLength={12}>{actor.name}</CSText>
-
                                 </View>
                             )
                     })}

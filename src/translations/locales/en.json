@@ -6,25 +6,27 @@
     },
     "placeholders": {
         "email": "Email",
-        "firstName": "First Name",
-        "lastName": "Last Name",
+        "first_name": "First Name",
+        "last_name": "Last Name",
         "password": "Password",
-        "confirmPassword": "Confirm Password"
+        "confirm_password": "Confirm Password"
     },
     "login": {
         "title": "Login",
-        "socialLoginSubtitle": "Or sign in with",
-        "dontHaveAnAccount": "Dont have an account? "
+        "social_login_subtitle": "Or sign in with",
+        "dont_have_an_account": "Don't have an account? "
     },
     "register": {
         "title": "Register",
-        "alreadyHaveAnAccount": "Already have an account? "
+        "already_have_an_account": "Already have an account? "
     },
     "main": {
-        "sectionTitle": "{{category}} Movies",
-        "titleOptions": {
-            "new": "New",
-            "upcoming": "Upcoming"
+        "section_title": "{{category}} Movies",
+        "title_options": {
+            "now_playing": "New",
+            "upcoming": "Upcoming",
+            "top_rated": "Top Rated",
+            "popular": "Popular"
         }
     },
     "profile": {

@@ -30,8 +30,6 @@ export const signUpWithEmailPassword = async (email: string, password: string, f
         await user.updateProfile({
             displayName: `${firstName} ${lastName}`,
         });
-
-        console.log('User account created & signed in!');
         return user;
     } catch (error: any) {
         if (error.code === 'auth/email-already-in-use') {
@@ -49,7 +47,6 @@ export const signInWithEmailPassword = (email: string, password: string) => {
     auth()
         .signInWithEmailAndPassword(email, password)
         .then(() => {
-            console.log('User signed in!');
         })
         .catch(error => {
             console.error(error);
@@ -59,5 +56,5 @@ export const signInWithEmailPassword = (email: string, password: string) => {
 export const signOut = () => {
     auth()
         .signOut()
-        .then(() => console.log('User signed out!'));
+        .then(() => { });
 }

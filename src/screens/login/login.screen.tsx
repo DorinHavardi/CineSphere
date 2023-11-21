@@ -8,15 +8,15 @@ import { signInWithEmailPassword, signInWithGoogle } from '../../utils/firebase.
 import { SCREEN_HEIGHT } from '../../utils/window.util';
 import { ECSTextTypes } from '../../enums/ECSTextTypes';
 import { ESocialConnectButtonTypes } from '../../enums/ESocialConnectButtonTypes';
-import { EMainStackNavigator } from '../../enums/EMainStackNavigator';
-import { useAppDispatch, useAppSelector } from '../../store/store';
+import { useAppDispatch } from '../../store/store';
 import { setUser } from '../../store/reducers/auth.slice';
+import { setIsLoading } from '../../store/reducers/system.slice';
+import { EMainStackNavigator } from '../../enums/EMainStackNavigator';
 
 const Login: FC = () => {
     const navigation = useNavigation();
     const dispatch = useAppDispatch();
     const { t } = useTranslation();
-    const { user } = useAppSelector(state => state.auth)
 
     const [email, setEmail] = useState<string>("")
     const [password, setPassword] = useState<string>("")
@@ -30,35 +30,29 @@ const Login: FC = () => {
                 <CsInput placeholder='Password' onChangeText={(value: string) => setPassword(value)} secureTextEntry />
                 <CsButton text="Login" onPress={() => signInWithEmailPassword(email, password)} buttonStyle={{ marginTop: 50 }} />
                 <View style={styles.socialConnectContainer}>
-                    <CsText type={ECSTextTypes.Small} style={styles.noAccountText}>{t('login.socialLoginSubtitle')} </CsText>
+                    <CsText type={ECSTextTypes.Small} style={styles.noAccountText}>{t('login.social_login_subtitle')} </CsText>
                     <View style={styles.socialButtonsContainer}>
-                        {/* <CsSocialConnect type={ESocialConnectButtonTypes.Facebook} /> */}
                         <CsSocialConnect
+                            type={ESocialConnectButtonTypes.Google}
                             onPress={() => {
-                                // dispatch(setIsLoading(true))
-                                signInWithGoogle().then(googleUser => {
-                                    const userData = {
-                                        email: googleUser?.user?.email,
-                                        displayName: googleUser?.user?.displayName,
-                                        photoURL: googleUser?.user?.photoURL,
-                                        // ... any other relevant fields
-                                    };
-                                    dispatch(setUser(userData))
-                                }).catch(error => {
-                                    console.error("Google sign-in error: ", error)
-                                    // dispatch(setIsLoading(false))
-
-                                }).finally(() => {
-                                    // dispatch(setIsLoading(false))
-                                })
+                                dispatch(setIsLoading(true));
+                                signInWithGoogle()
+                                    .then(googleUser => {
+                                        const userData = {
+                                            email: googleUser?.user?.email,
+                                            displayName: googleUser?.user?.displayName,
+                                            photoURL: googleUser?.user?.photoURL,
+                                        };
+                                        dispatch(setUser(userData))
+                                    }).catch(error => console.error("Google sign-in error: ", error))
+                                    .finally(() => dispatch(setIsLoading(false)))
                             }}
-                            type={ESocialConnectButtonTypes.Google} />
-                        {/* <CsSocialConnect type={ESocialConnectButtonTypes.Apple} /> */}
+                        />
                     </View>
                 </View>
             </View>
             <View style={styles.noAccount}>
-                <CsText type={ECSTextTypes.Small} style={styles.noAccountText}> {t('login.dontHaveAnAccount')}</CsText>
+                <CsText type={ECSTextTypes.Small} style={styles.noAccountText}> {t('login.dont_have_an_account')}</CsText>
                 <Pressable onPress={() => navigation.navigate(EMainStackNavigator.Register)}>
                     <CsText type={ECSTextTypes.Small} style={[styles.noAccountText, { color: Colors.accent1000 }]}>
                         {t('register.title')}
@@ -82,7 +76,7 @@ const styles = StyleSheet.create({
     },
     socialConnectContainer: {
         alignItems: 'center',
-        marginVertical: 35,
+        marginTop: 35,
     },
     socialButtonsContainer: {
         flexDirection: 'row',
@@ -91,7 +85,6 @@ const styles = StyleSheet.create({
     },
     noAccount: {
         flexDirection: "row",
-        marginTop: 25
     },
     noAccountText: {
         color: Colors.primary500
