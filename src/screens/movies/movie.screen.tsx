@@ -6,13 +6,13 @@ import { SCREEN_HEIGHT } from '../../utils/window.util';
 import LinearGradient from 'react-native-linear-gradient';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faChevronLeft, faStar, } from '@fortawesome/free-solid-svg-icons';
-import CSText from '../../components/text.cmp';
 import { getGenresNames, voteAverageToStarRating } from '../../utils/movies.util';
 import { ECSTextTypes } from '../../enums/ECSTextTypes';
 import { ICast } from '../../interfaces/ICast';
 import { setIsTabBarVisible } from '../../store/reducers/system.slice';
 import { useAppDispatch, useAppSelector } from '../../store/store';
 import { getMovieCast } from '../../store/thunks/movies.thunk';
+import { CsText } from '../../components';
 
 
 interface ISingleMovie {
@@ -27,14 +27,12 @@ const SingleMovie: FC<ISingleMovie> = ({ route }) => {
     const { isTabBarVisible } = useAppSelector(state => state.system)
 
     useEffect(() => {
-        dispatch(getMovieCast(movie.id))
+        console.log("movie", movie)
+        dispatch(getMovieCast({ movieId: movie.id }))
         return () => {
             dispatch(setIsTabBarVisible(true))
         }
     }, [isTabBarVisible])
-
-
-
 
     const getReleaseYear = (date: string) => (date?.split("-")[0]);
 
@@ -61,25 +59,25 @@ const SingleMovie: FC<ISingleMovie> = ({ route }) => {
             </ImageBackground>
             <View style={styles.container}>
                 <View style={{ alignItems: 'center' }}>
-                    <CSText type={ECSTextTypes.Big} style={{ textAlign: 'center', lineHeight: 35, marginBottom: 10 }}>{movie.title}</CSText>
-                    <CSText type={ECSTextTypes.Small} style={{ marginBottom: 20, textAlign: 'center' }}>
+                    <CsText type={ECSTextTypes.Big} style={{ textAlign: 'center', lineHeight: 35, marginBottom: 10 }}>{movie.title}</CsText>
+                    <CsText type={ECSTextTypes.Small} style={{ marginBottom: 20, textAlign: 'center' }}>
                         {getReleaseYear(movie.release_date)} | {getGenresNames(movie.genre_ids, genres)} | {movie.original_language.toUpperCase()}
-                    </CSText>
+                    </CsText>
                     <View style={{ flexDirection: 'row', marginBottom: 10, }}>
                         {[...Array(5)].map((_, i) => {
                             return <FontAwesomeIcon color={i < voteAverageToStarRating(movie.vote_average) ? Colors.gold : Colors.primary400} size={20} icon={faStar} key={i} style={{ marginEnd: 5 }} />
                         })}
                     </View>
                 </View>
-                <CSText type={ECSTextTypes.Smaller}>{movie.overview}</CSText>
-                <CSText type={ECSTextTypes.Small} style={{ marginVertical: 10, fontWeight: 'bold' }}>Cast</CSText>
+                <CsText type={ECSTextTypes.Smaller}>{movie.overview}</CsText>
+                <CsText type={ECSTextTypes.Small} style={{ marginVertical: 10, fontWeight: 'bold' }}>Cast</CsText>
                 <ScrollView style={{ flexDirection: 'row' }} horizontal showsHorizontalScrollIndicator={false}>
                     {selectedMovie?.cast && selectedMovie.cast.map((actor: ICast, index: number) => {
                         if (index < 5)
                             return (
                                 <View style={{ flexDirection: 'column', alignItems: 'center', marginHorizontal: 10 }} key={index}>
                                     <Image style={styles.actorImage} source={{ uri: `https://image.tmdb.org/t/p/w500${actor.profile_path}` }} />
-                                    <CSText type={ECSTextTypes.Smaller} style={{ textAlign: 'center' }} maxLength={12}>{actor.name}</CSText>
+                                    <CsText type={ECSTextTypes.Smaller} style={{ textAlign: 'center' }} maxLength={12}>{actor.name}</CsText>
                                 </View>
                             )
                     })}

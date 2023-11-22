@@ -30,13 +30,13 @@ const Carousel: FC<ICarousel> = ({ data, title }) => {
                 }}
             >
                 <Image source={{ uri: `https://image.tmdb.org/t/p/w500${item.poster_path}` }} style={styles.image} resizeMode='cover' />
-                <CsText style={{ color: Colors.white, textAlign: 'center' }} type={ECSTextTypes.Small} maxLength={15}>{item.title}</CsText>
+                <CsText style={{ color: Colors.white, textAlign: 'center' }} type={ECSTextTypes.Small} numberOfLines={2}>{item.title}</CsText>
             </TouchableOpacity>
         )
     };
     return (
         <View>
-            {title && <CsText type={ECSTextTypes.Big}>{title}</CsText>}
+            {title && <CsText type={ECSTextTypes.Big} style={{marginBottom: 10}}>{title}</CsText>}
             <FlatList
                 horizontal
                 showsHorizontalScrollIndicator={false}
@@ -53,10 +53,13 @@ export default Carousel;
 
 const styles = StyleSheet.create({
     flatlist: {
+        marginBottom: 25
     },
     item: {
         margin: 10,
         alignItems: 'center',
+        width: 150
+
     },
     image: {
         width: 140,

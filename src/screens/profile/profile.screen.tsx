@@ -8,10 +8,10 @@ import { signOut } from '../../utils/firebase.util';
 import { setUser } from '../../store/reducers/auth.slice';
 
 const Profile: FC = () => {
-    const { user } = useAppSelector(state => state.auth);
-    const { photoURL, displayName, firstName, lastName } = user!;
     const { t } = useTranslation();
     const dispatch = useAppDispatch();
+    const { user } = useAppSelector(state => state.auth);
+    const { photoURL, displayName, firstName, lastName } = user!;
 
     const [newFirstName, setNewFirstName] = useState<string | null>(
         firstName || null,
@@ -29,24 +29,24 @@ const Profile: FC = () => {
 
     return (
         <SafeAreaView style={styles.container}>
-            <Image source={{ uri: photoURL }} style={styles.image} />
+            {photoURL && <Image source={{ uri: photoURL }} style={styles.image} />}
             <CsInput
-                placeholder={t('placeholdersfirst_name')}
+                placeholder={t('placeholders.first_name')}
                 onChangeText={(value: string) => setNewFirstName(value)}
                 value={newFirstName}
             />
             <CsInput
-                placeholder={t('placeholderslast_name')}
+                placeholder={t('placeholders.last_name')}
                 onChangeText={(value: string) => setNewLastName(value)}
                 value={newLastName}
             />
-            <CsButton
-                text={t('profile.save')}
-                buttonStyle={styles.logOutBtn}
-                onPress={() => {
-                }}
-            />
             <View style={styles.buttonsContainer}>
+                <CsButton
+                    text={t('profile.save')}
+                    buttonStyle={styles.logOutBtn}
+                    onPress={() => {
+                    }}
+                />
                 <CsButton
                     outlined
                     text={t('profile.logout')}
@@ -68,6 +68,7 @@ const styles = StyleSheet.create({
         flex: 1,
         padding: 15,
         alignItems: 'center',
+        justifyContent: 'center',
     },
     image: {
         width: 150,

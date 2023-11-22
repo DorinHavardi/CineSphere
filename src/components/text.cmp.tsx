@@ -5,41 +5,19 @@ import { Colors } from '../theme/colors';
 import { Fonts } from '../theme/fonts';
 import { ICSText } from '../interfaces/ICSText';
 
-const CSText: FC<ICSText> = ({ children, type, style, numberOfLines, maxLength }) => {
+const CSText: FC<ICSText> = ({ children, type, style, numberOfLines }) => {
     let displayedText = children;
-
-    if (typeof children === "string" && maxLength) {
-        const segments = [];
-        let startIdx = 0;
-
-        while (startIdx < children.length) {
-            let endIdx = startIdx + maxLength;
-            if (endIdx < children.length) {
-                while (endIdx > startIdx && children[endIdx] !== ' ') {
-                    endIdx--;
-                }
-                if (endIdx === startIdx) {
-                    // Word is longer than maxLength, just break mid-word
-                    endIdx = startIdx + maxLength;
-                }
-            }
-            segments.push(children.slice(startIdx, endIdx));
-            startIdx = endIdx;
-        }
-
-        displayedText = segments.join('\n');
-    }
 
     const textStyles = styles[type] || {};
 
     return (
-        <Text style={[textStyles, style]} numberOfLines={numberOfLines}>
+        <Text style={[textStyles, style]} numberOfLines={numberOfLines || 1}>
             {displayedText}
         </Text>
-    )
+    );
 }
 
-export default CSText
+export default CSText;
 
 const styles = StyleSheet.create({
     biggest: {

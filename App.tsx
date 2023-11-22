@@ -14,6 +14,8 @@ import { CsLoader } from './src/components';
 export const MainApp: FC = () => {
   const { user } = useAppSelector(state => state.auth);
   const { isLoading } = useAppSelector(state => state.system);
+  const { status } = useAppSelector((state) => state.movies);
+
 
   useEffect(() => {
   }, [user])
@@ -23,7 +25,7 @@ export const MainApp: FC = () => {
       <StatusBar barStyle={'light-content'} />
       <SafeAreaView style={{ flex: 1 }}>
         {user! && user!.email ? <TabNavigator /> : <StackNavigator />}
-        {isLoading && <CsLoader />}
+        {isLoading ? <CsLoader /> : null}
       </SafeAreaView>
     </MainLayout>
   );
