@@ -12,6 +12,8 @@ import MoviesRoutes from './movies.routes';
 import { useAppSelector } from '../store/store';
 import { ETabNavigator } from '../enums/ETabNavigator';
 import Profile from '../screens/profile/profile.screen';
+import { CsText } from '../components';
+import { ECSTextTypes } from '../enums/ECSTextTypes';
 
 const Tab = createBottomTabNavigator();
 
@@ -32,9 +34,8 @@ const TabNavigator = () => {
                 component={MoviesRoutes}
                 options={{
                     headerShown: false,
-                    title: t('tabs.movies'),
-                    tabBarLabelStyle: styles.tabBarLabel,
                     tabBarIcon: ({ focused }) => (<FontAwesomeIcon icon={faHouse} size={25} style={{ color: focused ? Colors.contrast : Colors.accent1000 }} />),
+                    tabBarLabel: ({ focused }) => (<CsText type={ECSTextTypes.Smaller} style={[styles.tabBarLabel, { color: focused ? Colors.contrast : Colors.accent1000, fontFamily: focused ? Fonts.Poppins_Bold : Fonts.Poppins_Regular }]}> {t('tabs.movies')}</CsText>),
                 }}
             />
             <Tab.Screen
@@ -42,9 +43,8 @@ const TabNavigator = () => {
                 component={Profile}
                 options={{
                     headerShown: false,
-                    title: t('tabs.profile'),
-                    tabBarLabelStyle: styles.tabBarLabel,
                     tabBarIcon: ({ focused }) => (<FontAwesomeIcon icon={faUser} size={25} style={{ color: focused ? Colors.contrast : Colors.accent1000 }} />),
+                    tabBarLabel: ({ focused }) => (<CsText type={ECSTextTypes.Smaller} style={[styles.tabBarLabel, { color: focused ? Colors.contrast : Colors.accent1000, fontFamily: focused ? Fonts.Poppins_Bold : Fonts.Poppins_Regular }]}> {t('tabs.profile')}</CsText>)
                 }}
             />
         </Tab.Navigator>
@@ -71,6 +71,7 @@ const styles = StyleSheet.create({
     tabBarLabel: {
         fontSize: getFontSizeByWindowWidth(16),
         fontFamily: Fonts.Poppins_Regular,
-        color: Colors.accent1000
+        color: Colors.accent1000,
+        marginBottom: 7,
     }
 })

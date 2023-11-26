@@ -13,7 +13,8 @@ const MoviesRoutes = () => {
             <Stack.Screen
                 name={EMovieStackRoutes.Main}
                 options={{ headerShown: false }}
-                component={Main} />
+                component={Main}
+            />
             <Stack.Screen
                 name={EMovieStackRoutes.SingleMovie}
                 options={{ headerShown: false }}

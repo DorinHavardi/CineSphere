@@ -1,7 +1,6 @@
-import { ScrollView, StyleSheet } from 'react-native';
-import React, { FC, useEffect } from 'react';
+import { SafeAreaView, ScrollView, StyleSheet } from 'react-native';
+import React, { FC, useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { SCREEN_HEIGHT } from '../../utils/window.util';
 import { Colors } from '../../theme/colors';
 import { useAppDispatch, useAppSelector } from '../../store/store';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
@@ -15,11 +14,16 @@ import { getGenres, getMovies } from '../../store/thunks/movies.thunk';
 interface IMain {
 }
 
+type PagesState = {
+    [key in ETMDBCategories]?: number;
+};
+
 const Main: FC<IMain> = ({ }) => {
     const navigation = useNavigation<NativeStackNavigationProp<MoviesStackParamsList>>();
     const dispatch = useAppDispatch();
     const { t } = useTranslation();
     const { movies, status } = useAppSelector((state) => state.movies);
+    const [pages, setPages] = useState<PagesState>({});
 
     useEffect(() => {
         dispatch(getMovies({ category: ETMDBCategories.NOW_PLAYING, page: 1 }));
@@ -29,34 +33,47 @@ const Main: FC<IMain> = ({ }) => {
         dispatch(getGenres());
     }, [dispatch]);
 
-
     useFocusEffect(() => {
         dispatch(setIsTabBarVisible(true))
     })
 
+    const getNextPage = useCallback((category: ETMDBCategories) => {
+        const currentPage = pages[category] || 1;
+        const newPage = currentPage + 1;
+
+        setPages(prevPages => ({ ...prevPages, [category]: newPage }));
+        dispatch(getMovies({ category, page: newPage }));
+    }, [dispatch, pages]);
+
     return (
-        <ScrollView style={styles.container} showsVerticalScrollIndicator={false} alwaysBounceVertical={true}>
-            {Object.entries(movies).map(([category, moviesInCategory]) => {
-                return (
-                    <CsCarousel
-                        key={category}
-                        data={moviesInCategory}
-                        title={t('main.section_title', { category: t(`main.title_options.${category}`) })}
-                    />
-                )
-            })}
-        </ScrollView>
+        <SafeAreaView style={styles.safeArea} >
+            <ScrollView style={styles.container} showsVerticalScrollIndicator={false} alwaysBounceVertical={true}>
+                {Object.entries(movies).map(([category, moviesInCategory]) => {
+                    return (
+                        <CsCarousel
+                            key={category}
+                            data={moviesInCategory}
+                            onEndReached={() => getNextPage(category as ETMDBCategories)}
+                            title={t('main.section_title', { category: t(`main.title_options.${category}`) })}
+                        />
+                    )
+                })}
+            </ScrollView>
+        </SafeAreaView>
     );
 };
 export default Main;
 
 
 const styles = StyleSheet.create({
-    container: {
+    safeArea: {
         flex: 1,
-        paddingHorizontal: 15,
-        paddingTop: SCREEN_HEIGHT / 10,
         backgroundColor: Colors.primary1000,
     },
+    container: {
+        marginVertical: "4%",
+        paddingHorizontal: 15,
+
+    }
 
 });

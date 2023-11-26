@@ -11,7 +11,7 @@ const CSText: FC<ICSText> = ({ children, type, style, numberOfLines }) => {
     const textStyles = styles[type] || {};
 
     return (
-        <Text style={[textStyles, style]} numberOfLines={numberOfLines || 1}>
+        <Text style={[textStyles, style]} numberOfLines={numberOfLines}>
             {displayedText}
         </Text>
     );

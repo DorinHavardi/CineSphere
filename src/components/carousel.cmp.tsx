@@ -1,5 +1,6 @@
-import { FlatList, Image, StyleSheet, TouchableOpacity, View } from 'react-native';
-import React, { FC } from 'react';
+import { FlatList, Image, StyleSheet, TouchableOpacity } from 'react-native';
+import React, { FC, useCallback } from 'react';
+
 import { IMovie } from '../interfaces/IMovie';
 import { CsText } from '.';
 import { ECSTextTypes } from '../enums/ECSTextTypes';
@@ -11,41 +12,54 @@ import { MoviesStackParamsList } from '../navigation/types/MoviesStackParamsList
 import { setSelectedMovie } from '../store/reducers/movies.slice';
 import { setIsTabBarVisible } from '../store/reducers/system.slice';
 import { EMovieStackRoutes } from '../enums/EMovieStackRoutes';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
+
 
 interface ICarousel {
     data: IMovie[];
     title?: string;
+    onEndReached: () => void;
 }
-const Carousel: FC<ICarousel> = ({ data, title }) => {
+
+const ItemCard = React.memo(({ item, onPress }: { item: IMovie, onPress: () => void }) => {
+    return (
+        <TouchableOpacity style={[styles.item]} onPress={onPress}>
+            <Image source={{ uri: `https://image.tmdb.org/t/p/w500${item.poster_path}` }} style={styles.image} resizeMode='cover' />
+            <CsText style={styles.movieTitle} type={ECSTextTypes.Small} numberOfLines={2}>{item.title}</CsText>
+        </TouchableOpacity>
+    )
+});
+
+const Carousel: FC<ICarousel> = ({ data, title, onEndReached }) => {
     const navigation = useNavigation<NativeStackNavigationProp<MoviesStackParamsList>>();
     const dispatch = useAppDispatch();
 
-    const itemCard = ({ item, index }: { item: IMovie; index: number }) => {
-        return (
-            <TouchableOpacity style={[styles.item]}
-                onPress={() => {
-                    dispatch(setSelectedMovie(item))
-                    dispatch(setIsTabBarVisible(false))
-                    navigation.navigate(EMovieStackRoutes.SingleMovie, { movie: item })
-                }}
-            >
-                <Image source={{ uri: `https://image.tmdb.org/t/p/w500${item.poster_path}` }} style={styles.image} resizeMode='cover' />
-                <CsText style={{ color: Colors.white, textAlign: 'center' }} type={ECSTextTypes.Small} numberOfLines={2}>{item.title}</CsText>
-            </TouchableOpacity>
-        )
-    };
+    const handlePress = useCallback((item: IMovie) => {
+        dispatch(setSelectedMovie(item));
+        dispatch(setIsTabBarVisible(false));
+        navigation.navigate(EMovieStackRoutes.SingleMovie, { movie: item });
+    }, [dispatch, navigation]);
+
+
     return (
-        <View>
-            {title && <CsText type={ECSTextTypes.Big} style={{marginBottom: 10}}>{title}</CsText>}
+        <>
+            {title && <CsText type={ECSTextTypes.Big} style={{ marginBottom: 10 }}>{title}</CsText>}
             <FlatList
                 horizontal
                 showsHorizontalScrollIndicator={false}
                 data={data}
-                renderItem={itemCard}
-                keyExtractor={(item) => item.id.toString()}
+                renderItem={({ item }) => (
+                    <ItemCard item={item} onPress={() => handlePress(item)} />
+                )} keyExtractor={(item) => item.id.toString()}
                 style={styles.flatlist}
+                ListFooterComponent={() => (
+                    <TouchableOpacity onPress={onEndReached} style={styles.endButton}>
+                        <CsText type={ECSTextTypes.Biggest}><FontAwesomeIcon icon={faArrowRight} color={Colors.accent1000} size={30} /></CsText>
+                    </TouchableOpacity>
+                )}
             />
-        </View>
+        </>
     )
 }
 
@@ -61,6 +75,10 @@ const styles = StyleSheet.create({
         width: 150
 
     },
+    movieTitle: {
+        color: Colors.white,
+        textAlign: 'center'
+    },
     image: {
         width: 140,
         height: 220,
@@ -68,4 +86,10 @@ const styles = StyleSheet.create({
         marginBottom: 10,
 
     },
+    endButton: {
+        height: 220,
+        width: 50,
+        justifyContent: 'center',
+        alignItems: 'center',
+    }
 })

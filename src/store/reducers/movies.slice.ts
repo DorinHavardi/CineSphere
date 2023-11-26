@@ -1,11 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
-import Config from 'react-native-config';
 import { IGenre } from '../../interfaces/IGenre';
 import { IMovie } from '../../interfaces/IMovie';
 import { ICast } from '../../interfaces/ICast';
 import { getGenres, getMovieCast, getMovies } from '../thunks/movies.thunk';
-
-const API_KEY = Config.TMDB_API_KEY;
 
 interface MoviesState {
     movies: { [category: string]: IMovie[] };
@@ -33,6 +30,7 @@ export const moviesSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
+            // * MOVIES *
             .addCase(getMovies.pending, (state) => {
                 state.status = 'loading';
             })
@@ -45,6 +43,7 @@ export const moviesSlice = createSlice({
                 state.status = 'failed';
                 state.error = action.payload;
             })
+            // * GENRES *
             .addCase(getGenres.pending, (state) => {
                 state.status = 'loading';
             })
@@ -56,6 +55,7 @@ export const moviesSlice = createSlice({
                 state.error = action.payload;
                 state.status = 'failed';
             })
+            // * CAST *
             .addCase(getMovieCast.pending, (state) => {
                 state.status = 'loading'
             }).addCase(getMovieCast.fulfilled, (state, action) => {

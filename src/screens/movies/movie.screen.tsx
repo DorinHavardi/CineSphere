@@ -13,6 +13,7 @@ import { setIsTabBarVisible } from '../../store/reducers/system.slice';
 import { useAppDispatch, useAppSelector } from '../../store/store';
 import { getMovieCast } from '../../store/thunks/movies.thunk';
 import { CsText } from '../../components';
+import { useTranslation } from 'react-i18next';
 
 
 interface ISingleMovie {
@@ -21,13 +22,13 @@ interface ISingleMovie {
 
 const SingleMovie: FC<ISingleMovie> = ({ route }) => {
     const movie = route.params.movie;
+    const { t } = useTranslation();
     const navigation = useNavigation();
     const dispatch = useAppDispatch()
     const { genres, selectedMovie } = useAppSelector(state => state.movies)
     const { isTabBarVisible } = useAppSelector(state => state.system)
 
     useEffect(() => {
-        console.log("movie", movie)
         dispatch(getMovieCast({ movieId: movie.id }))
         return () => {
             dispatch(setIsTabBarVisible(true))
@@ -37,7 +38,7 @@ const SingleMovie: FC<ISingleMovie> = ({ route }) => {
     const getReleaseYear = (date: string) => (date?.split("-")[0]);
 
     return (
-        <ScrollView showsVerticalScrollIndicator={false} alwaysBounceVertical={false} style={{ flex: 1, height: SCREEN_HEIGHT, backgroundColor: Colors.primary1000 }}>
+        <ScrollView showsVerticalScrollIndicator={false} alwaysBounceVertical={false} style={styles.scrollContainer}>
             <ImageBackground
                 source={{ uri: `https://image.tmdb.org/t/p/w500${movie.backdrop_path}` }}
                 resizeMode="cover"
@@ -53,14 +54,14 @@ const SingleMovie: FC<ISingleMovie> = ({ route }) => {
                     ]}
                     style={styles.gradient}
                 />
-                <TouchableOpacity onPress={() => navigation.goBack()} style={{ position: 'absolute', top: "25%", paddingHorizontal: 15 }}>
+                <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
                     <FontAwesomeIcon icon={faChevronLeft} color={Colors.white} size={25} />
                 </TouchableOpacity>
             </ImageBackground>
             <View style={styles.container}>
                 <View style={{ alignItems: 'center' }}>
-                    <CsText type={ECSTextTypes.Big} style={{ textAlign: 'center', lineHeight: 35, marginBottom: 10 }}>{movie.title}</CsText>
-                    <CsText type={ECSTextTypes.Small} style={{ marginBottom: 20, textAlign: 'center' }}>
+                    <CsText type={ECSTextTypes.Big} style={styles.movieTitle}>{movie.title}</CsText>
+                    <CsText type={ECSTextTypes.Small} style={styles.movieDetails}>
                         {getReleaseYear(movie.release_date)} | {getGenresNames(movie.genre_ids, genres)} | {movie.original_language.toUpperCase()}
                     </CsText>
                     <View style={{ flexDirection: 'row', marginBottom: 10, }}>
@@ -70,18 +71,18 @@ const SingleMovie: FC<ISingleMovie> = ({ route }) => {
                     </View>
                 </View>
                 <CsText type={ECSTextTypes.Smaller}>{movie.overview}</CsText>
-                <CsText type={ECSTextTypes.Small} style={{ marginVertical: 10, fontWeight: 'bold' }}>Cast</CsText>
-                <ScrollView style={{ flexDirection: 'row' }} horizontal showsHorizontalScrollIndicator={false}>
-                    {selectedMovie?.cast && selectedMovie.cast.map((actor: ICast, index: number) => {
-                        if (index < 5)
-                            return (
-                                <View style={{ flexDirection: 'column', alignItems: 'center', marginHorizontal: 10 }} key={index}>
-                                    <Image style={styles.actorImage} source={{ uri: `https://image.tmdb.org/t/p/w500${actor.profile_path}` }} />
-                                    <CsText type={ECSTextTypes.Smaller} style={{ textAlign: 'center' }} maxLength={12}>{actor.name}</CsText>
-                                </View>
-                            )
-                    })}
-                </ScrollView>
+                {selectedMovie?.cast && <><CsText type={ECSTextTypes.Small} style={styles.castTitle}>{t('movie_screen.cast')}</CsText>
+                    <ScrollView style={{ flexDirection: 'row' }} horizontal showsHorizontalScrollIndicator={false}>
+                        {selectedMovie?.cast && selectedMovie.cast.map((actor: ICast, index: number) => {
+                            if (index < 5)
+                                return (
+                                    <View style={styles.castContainer} key={index}>
+                                        <Image style={styles.actorImage} source={{ uri: `https://image.tmdb.org/t/p/w500${actor.profile_path}` }} />
+                                        <CsText type={ECSTextTypes.Smaller} style={{ textAlign: 'center' }} maxLength={12}>{actor.name}</CsText>
+                                    </View>
+                                )
+                        })}
+                    </ScrollView></>}
             </View>
         </ScrollView>
     );
@@ -90,6 +91,11 @@ const SingleMovie: FC<ISingleMovie> = ({ route }) => {
 export default SingleMovie
 
 const styles = StyleSheet.create({
+    scrollContainer: {
+        flex: 1,
+        height: SCREEN_HEIGHT,
+        backgroundColor: Colors.primary1000
+    },
     imageCover: {
         width: "100%",
         height: SCREEN_HEIGHT * 0.3,
@@ -104,9 +110,31 @@ const styles = StyleSheet.create({
         width: "100%",
         height: "30%",
     },
+    backButton: {
+        position: 'absolute',
+        top: "25%",
+        paddingHorizontal: 15
+    },
     container: {
         padding: 15,
         backgroundColor: Colors.primary1000,
+    },
+    movieTitle: {
+        textAlign: 'center',
+        marginBottom: 10
+    },
+    movieDetails: {
+        marginBottom: 20,
+        textAlign: 'center'
+    },
+    castTitle: {
+        marginVertical: 10,
+        fontWeight: 'bold'
+    },
+    castContainer: {
+        flexDirection: 'column',
+        alignItems: 'center',
+        marginHorizontal: 10
     },
     actorImage: {
         height: 100,

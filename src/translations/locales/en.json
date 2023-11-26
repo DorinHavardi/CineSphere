@@ -29,6 +29,9 @@
             "popular": "Popular"
         }
     },
+    "movie_screen": {
+        "cast": "Cast"
+    },
     "profile": {
         "title": "Hi {{username}}",
         "save": "Save",
