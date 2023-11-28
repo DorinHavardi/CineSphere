@@ -14,15 +14,16 @@ import { setIsTabBarVisible } from '../store/reducers/system.slice';
 import { EMovieStackRoutes } from '../enums/EMovieStackRoutes';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
+import { ITVShow } from '../interfaces/ITVShow';
 
 
 interface ICarousel {
-    data: IMovie[];
+    data: IMovie[] | ITVShow[];
     title?: string;
-    onEndReached: () => void;
+    onEndReached?: () => void;
 }
 
-const ItemCard = React.memo(({ item, onPress }: { item: IMovie, onPress: () => void }) => {
+const ItemCard = React.memo(({ item, onPress }: { item: IMovie | ITVShow, onPress: () => void }) => {
     return (
         <TouchableOpacity style={[styles.item]} onPress={onPress}>
             <Image source={{ uri: `https://image.tmdb.org/t/p/w500${item.poster_path}` }} style={styles.image} resizeMode='cover' />
@@ -35,7 +36,7 @@ const Carousel: FC<ICarousel> = ({ data, title, onEndReached }) => {
     const navigation = useNavigation<NativeStackNavigationProp<MoviesStackParamsList>>();
     const dispatch = useAppDispatch();
 
-    const handlePress = useCallback((item: IMovie) => {
+    const handlePress = useCallback((item: IMovie | ITVShow) => {
         dispatch(setSelectedMovie(item));
         dispatch(setIsTabBarVisible(false));
         navigation.navigate(EMovieStackRoutes.SingleMovie, { movie: item });

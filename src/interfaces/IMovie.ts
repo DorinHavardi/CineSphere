@@ -10,6 +10,7 @@ export interface IMovie {
     poster_path: string;
     release_date: string | Date;
     title: string;
-    video: boolean; vote_average: number;
+    video: boolean;
+    vote_average: number;
     vote_count: number
 }

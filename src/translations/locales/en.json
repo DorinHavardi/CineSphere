@@ -2,6 +2,7 @@
     "title": "CineSphere",
     "tabs": {
         "movies": "Movies",
+        "tvShows": "TV Shows",
         "profile": "Profile"
     },
     "placeholders": {
@@ -20,7 +21,7 @@
         "title": "Register",
         "already_have_an_account": "Already have an account? "
     },
-    "main": {
+    "movies": {
         "section_title": "{{category}} Movies",
         "title_options": {
             "now_playing": "New",
@@ -31,6 +32,16 @@
     },
     "movie_screen": {
         "cast": "Cast"
+    },
+    "tvShows": {
+        "section_title": "{{category}} TV Shows",
+        "title_options": {
+            "popular": "Popular",
+            "top_rated": "Top Rated",
+            "on_the_air": "On The Air",
+            "airing_today": "Airing today",
+            "latest": "Latest"
+        }
     },
     "profile": {
         "title": "Hi {{username}}",

@@ -4,7 +4,7 @@ import { StyleSheet } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useTranslation } from 'react-i18next';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faHouse, faUser } from '@fortawesome/free-solid-svg-icons';
+import { faUser, faClapperboard, faTv } from '@fortawesome/free-solid-svg-icons';
 import { Colors } from '../theme/colors';
 import { Fonts } from '../theme/fonts';
 import { SCREEN_HEIGHT, getFontSizeByWindowWidth } from '../utils/window.util';
@@ -14,12 +14,39 @@ import { ETabNavigator } from '../enums/ETabNavigator';
 import Profile from '../screens/profile/profile.screen';
 import { CsText } from '../components';
 import { ECSTextTypes } from '../enums/ECSTextTypes';
+import TVShowsRoutes from './tvShows.routes';
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
 
 const Tab = createBottomTabNavigator();
 
 const TabNavigator = () => {
     const { t } = useTranslation();
     const { isTabBarVisible } = useAppSelector((state) => state.system)
+
+    const createTabOptions = (icon: IconProp, labelKey: string) => ({
+        headerShown: false,
+        tabBarIcon: ({ focused }: { focused: boolean }) => (
+            <FontAwesomeIcon
+                icon={icon}
+                size={25}
+                style={{ color: focused ? Colors.contrast : Colors.accent1000 }}
+            />
+        ),
+        tabBarLabel: ({ focused }: { focused: boolean }) => (
+            <CsText
+                type={ECSTextTypes.Smallest}
+                style={[
+                    styles.tabBarLabel,
+                    {
+                        color: focused ? Colors.contrast : Colors.accent1000,
+                        fontFamily: focused ? Fonts.Poppins_Bold : Fonts.Poppins_Regular,
+                    },
+                ]}
+            >
+                {t(`tabs.${labelKey}`)}
+            </CsText>
+        ),
+    });
 
     return (
         <Tab.Navigator
@@ -32,20 +59,17 @@ const TabNavigator = () => {
             <Tab.Screen
                 name={ETabNavigator.MoviesRoutes}
                 component={MoviesRoutes}
-                options={{
-                    headerShown: false,
-                    tabBarIcon: ({ focused }) => (<FontAwesomeIcon icon={faHouse} size={25} style={{ color: focused ? Colors.contrast : Colors.accent1000 }} />),
-                    tabBarLabel: ({ focused }) => (<CsText type={ECSTextTypes.Smaller} style={[styles.tabBarLabel, { color: focused ? Colors.contrast : Colors.accent1000, fontFamily: focused ? Fonts.Poppins_Bold : Fonts.Poppins_Regular }]}> {t('tabs.movies')}</CsText>),
-                }}
+                options={createTabOptions(faClapperboard, 'movies')}
+            />
+            <Tab.Screen
+                name={ETabNavigator.TVShowsRoutes}
+                component={TVShowsRoutes}
+                options={createTabOptions(faTv, 'tvShows')}
             />
             <Tab.Screen
                 name={ETabNavigator.Profile}
                 component={Profile}
-                options={{
-                    headerShown: false,
-                    tabBarIcon: ({ focused }) => (<FontAwesomeIcon icon={faUser} size={25} style={{ color: focused ? Colors.contrast : Colors.accent1000 }} />),
-                    tabBarLabel: ({ focused }) => (<CsText type={ECSTextTypes.Smaller} style={[styles.tabBarLabel, { color: focused ? Colors.contrast : Colors.accent1000, fontFamily: focused ? Fonts.Poppins_Bold : Fonts.Poppins_Regular }]}> {t('tabs.profile')}</CsText>)
-                }}
+                options={createTabOptions(faUser, 'profile')}
             />
         </Tab.Navigator>
 
@@ -69,7 +93,7 @@ const styles = StyleSheet.create({
         shadowColor: Colors.black
     },
     tabBarLabel: {
-        fontSize: getFontSizeByWindowWidth(16),
+        fontSize: getFontSizeByWindowWidth(15),
         fontFamily: Fonts.Poppins_Regular,
         color: Colors.accent1000,
         marginBottom: 7,

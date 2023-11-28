@@ -71,7 +71,10 @@ const SingleMovie: FC<ISingleMovie> = ({ route }) => {
                     </View>
                 </View>
                 <CsText type={ECSTextTypes.Smaller}>{movie.overview}</CsText>
-                {selectedMovie?.cast && <><CsText type={ECSTextTypes.Small} style={styles.castTitle}>{t('movie_screen.cast')}</CsText>
+                {selectedMovie?.cast && <>
+                    <CsText type={ECSTextTypes.Small} style={styles.castTitle}>
+                        {t('movie_screen.cast')}
+                    </CsText>
                     <ScrollView style={{ flexDirection: 'row' }} horizontal showsHorizontalScrollIndicator={false}>
                         {selectedMovie?.cast && selectedMovie.cast.map((actor: ICast, index: number) => {
                             if (index < 5)

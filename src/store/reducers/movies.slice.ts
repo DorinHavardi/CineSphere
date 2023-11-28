@@ -9,7 +9,7 @@ interface MoviesState {
     genres: IGenre[];
     status: 'idle' | 'loading' | 'succeeded' | 'failed';
     error: string | null | undefined | unknown;
-    selectedMovie: IMovie & { cast?: ICast[] } | null,
+    selectedMovie: IMovie & { cast?: ICast[] } | null;
 }
 
 const initialState: MoviesState = {

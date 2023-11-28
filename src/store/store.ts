@@ -5,6 +5,7 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import authReducer from "./reducers/auth.slice";
 import moviesReducer from "./reducers/movies.slice";
 import systemReducer from "./reducers/system.slice";
+import tvShowsReducer from "./reducers/tvShows.slice";
 
 const persistConfig = {
     key: 'auth',
@@ -23,6 +24,7 @@ export const store = configureStore({
     reducer: {
         auth: persistedReducer,
         movies: moviesReducer,
+        tvShows: tvShowsReducer,
         system: systemReducer
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware({
