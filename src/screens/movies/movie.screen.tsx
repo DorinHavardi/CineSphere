@@ -1,12 +1,11 @@
-import { Image, ImageBackground, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { Image, ImageBackground, ScrollView, StyleSheet, View } from 'react-native';
 import React, { FC, useEffect } from 'react';
 import { Colors } from '../../theme/colors';
-import { useNavigation } from '@react-navigation/native';
 import { SCREEN_HEIGHT } from '../../utils/window.util';
 import LinearGradient from 'react-native-linear-gradient';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faChevronLeft, faStar, } from '@fortawesome/free-solid-svg-icons';
-import { getGenresNames, voteAverageToStarRating } from '../../utils/movies.util';
+import { faStar } from '@fortawesome/free-solid-svg-icons';
+import { getReleaseYear, voteAverageToStarRating } from '../../utils/TMDB.util';
 import { ECSTextTypes } from '../../enums/ECSTextTypes';
 import { ICast } from '../../interfaces/ICast';
 import { setIsTabBarVisible } from '../../store/reducers/system.slice';
@@ -14,33 +13,29 @@ import { useAppDispatch, useAppSelector } from '../../store/store';
 import { getMovieCast } from '../../store/thunks/movies.thunk';
 import { CsText } from '../../components';
 import { useTranslation } from 'react-i18next';
+import { IGenre } from '../../interfaces/IGenre';
+import { setSelectedMovie } from '../../store/reducers/movies.slice';
 
-
-interface ISingleMovie {
-    route: any;
-}
-
-const SingleMovie: FC<ISingleMovie> = ({ route }) => {
-    const movie = route.params.movie;
+const SingleMovie: FC = () => {
     const { t } = useTranslation();
-    const navigation = useNavigation();
     const dispatch = useAppDispatch()
-    const { genres, selectedMovie } = useAppSelector(state => state.movies)
+    const { selectedMovie } = useAppSelector(state => state.movies)
     const { isTabBarVisible } = useAppSelector(state => state.system)
 
     useEffect(() => {
-        dispatch(getMovieCast({ movieId: movie.id }))
+        dispatch(getMovieCast({ movieId: selectedMovie!.id }))
         return () => {
             dispatch(setIsTabBarVisible(true))
+            setSelectedMovie(null)
         }
     }, [isTabBarVisible])
 
-    const getReleaseYear = (date: string) => (date?.split("-")[0]);
+    console.log("selectedMovie", selectedMovie)
 
     return (
         <ScrollView showsVerticalScrollIndicator={false} alwaysBounceVertical={false} style={styles.scrollContainer}>
             <ImageBackground
-                source={{ uri: `https://image.tmdb.org/t/p/w500${movie.backdrop_path}` }}
+                source={{ uri: `https://image.tmdb.org/t/p/w500${selectedMovie!.backdrop_path}` }}
                 resizeMode="cover"
                 imageStyle={{ resizeMode: "cover" }}
                 style={styles.imageCover}
@@ -54,38 +49,40 @@ const SingleMovie: FC<ISingleMovie> = ({ route }) => {
                     ]}
                     style={styles.gradient}
                 />
-                <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
-                    <FontAwesomeIcon icon={faChevronLeft} color={Colors.white} size={25} />
-                </TouchableOpacity>
             </ImageBackground>
             <View style={styles.container}>
                 <View style={{ alignItems: 'center' }}>
-                    <CsText type={ECSTextTypes.Big} style={styles.movieTitle}>{movie.title}</CsText>
+                    <CsText type={ECSTextTypes.Big} style={styles.movieTitle}>
+                        {selectedMovie!.title}
+                    </CsText>
                     <CsText type={ECSTextTypes.Small} style={styles.movieDetails}>
-                        {getReleaseYear(movie.release_date)} | {getGenresNames(movie.genre_ids, genres)} | {movie.original_language.toUpperCase()}
+                        {getReleaseYear(selectedMovie!.release_date)} | {selectedMovie!.genres.map((genre: IGenre, index: number) => `${genre.name}${index !== selectedMovie!.genres.length - 1 ? ', ' : ''}`)} | {selectedMovie!.original_language.toUpperCase()}
                     </CsText>
                     <View style={{ flexDirection: 'row', marginBottom: 10, }}>
                         {[...Array(5)].map((_, i) => {
-                            return <FontAwesomeIcon color={i < voteAverageToStarRating(movie.vote_average) ? Colors.gold : Colors.primary400} size={20} icon={faStar} key={i} style={{ marginEnd: 5 }} />
+                            return <FontAwesomeIcon color={i < voteAverageToStarRating(selectedMovie!.vote_average) ? Colors.gold : Colors.primary400} size={20} icon={faStar} key={i} style={{ marginEnd: 5 }} />
                         })}
                     </View>
                 </View>
-                <CsText type={ECSTextTypes.Smaller}>{movie.overview}</CsText>
-                {selectedMovie?.cast && <>
-                    <CsText type={ECSTextTypes.Small} style={styles.castTitle}>
-                        {t('movie_screen.cast')}
-                    </CsText>
-                    <ScrollView style={{ flexDirection: 'row' }} horizontal showsHorizontalScrollIndicator={false}>
-                        {selectedMovie?.cast && selectedMovie.cast.map((actor: ICast, index: number) => {
-                            if (index < 5)
-                                return (
-                                    <View style={styles.castContainer} key={index}>
-                                        <Image style={styles.actorImage} source={{ uri: `https://image.tmdb.org/t/p/w500${actor.profile_path}` }} />
-                                        <CsText type={ECSTextTypes.Smaller} style={{ textAlign: 'center' }} maxLength={12}>{actor.name}</CsText>
-                                    </View>
-                                )
-                        })}
-                    </ScrollView></>}
+                <CsText type={ECSTextTypes.Smaller}>{selectedMovie!.overview}</CsText>
+                {selectedMovie!.cast &&
+                    <>
+                        <CsText type={ECSTextTypes.Small} style={styles.castTitle}>
+                            {t('movie_screen.cast')}
+                        </CsText>
+                        <ScrollView style={{ flexDirection: 'row' }} horizontal showsHorizontalScrollIndicator={false}>
+                            {selectedMovie!.cast && selectedMovie?.cast.map((actor: ICast, index: number) => {
+                                if (index < 5)
+                                    return (
+                                        <View style={styles.castContainer} key={index}>
+                                            <Image style={styles.actorImage} source={{ uri: `https://image.tmdb.org/t/p/w500${actor.profile_path}` }} />
+                                            <CsText type={ECSTextTypes.Smaller} style={{ textAlign: 'center' }} maxLength={12}>{actor.name}</CsText>
+                                        </View>
+                                    )
+                            })}
+                        </ScrollView>
+                    </>
+                }
             </View>
         </ScrollView>
     );
@@ -112,11 +109,6 @@ const styles = StyleSheet.create({
         aspectRatio: 1,
         width: "100%",
         height: "30%",
-    },
-    backButton: {
-        position: 'absolute',
-        top: "25%",
-        paddingHorizontal: 15
     },
     container: {
         padding: 15,

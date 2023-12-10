@@ -5,6 +5,7 @@ import { EMovieStackRoutes } from '../enums/EMovieStackRoutes';
 import Main from '../screens/movies/main.screen';
 import SingleMovie from '../screens/movies/movie.screen';
 import { CsLogo } from '../components';
+import Header from '../components/header.cmp';
 
 const Stack = createNativeStackNavigator();
 
@@ -20,7 +21,10 @@ const MoviesRoutes = () => {
             />
             <Stack.Screen
                 name={EMovieStackRoutes.SingleMovie}
-                options={{ headerShown: false }}
+                options={{
+                    // headerShown: false,
+                    header: () => <Header />
+                }}
                 component={SingleMovie} />
         </Stack.Navigator>
 

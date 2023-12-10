@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { IGenre } from '../../interfaces/IGenre';
 import { IMovie } from '../../interfaces/IMovie';
 import { ICast } from '../../interfaces/ICast';
-import { getGenres, getMovieCast, getMovies } from '../thunks/movies.thunk';
+import { getGenres, getMovie, getMovieCast, getMovies } from '../thunks/movies.thunk';
 
 interface MoviesState {
     movies: { [category: string]: IMovie[] };
@@ -40,6 +40,18 @@ export const moviesSlice = createSlice({
                 state.movies[category] = action.payload;
             })
             .addCase(getMovies.rejected, (state, action) => {
+                state.status = 'failed';
+                state.error = action.payload;
+            })
+            .addCase(getMovie.pending, (state) => {
+                state.status = 'loading';
+            })
+            .addCase(getMovie.fulfilled, (state, action) => {
+                state.status = 'succeeded';
+                console.log("action.payload", action.payload)
+                state.selectedMovie = action.payload;
+            })
+            .addCase(getMovie.rejected, (state, action) => {
                 state.status = 'failed';
                 state.error = action.payload;
             })

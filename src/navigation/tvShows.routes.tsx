@@ -4,6 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { ETVShowsStackRoutes } from '../enums/ETVShowsStackRoutes';
 import { CsLogo } from '../components';
 import TvShowsMain from '../screens/tvShows/main.screen';
+import SingleTVShow from '../screens/tvShows/tvShow.screen';
 
 const Stack = createNativeStackNavigator();
 
@@ -17,10 +18,10 @@ const TVShowsRoutes = () => {
                 }}
                 component={TvShowsMain}
             />
-            {/* <Stack.Screen
+            <Stack.Screen
                 name={ETVShowsStackRoutes.SingleTVShow}
                 options={{ headerShown: false }}
-                component={SingleTVShow} /> */}
+                component={SingleTVShow} />
         </Stack.Navigator>
 
     )

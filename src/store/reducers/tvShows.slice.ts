@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { ICast } from "../../interfaces/ICast";
 import { IGenre } from "../../interfaces/IGenre";
-import { getTVShows } from "../thunks/tvShows.thunk";
+import { getGenres, getTVShow, getTVShows } from "../thunks/tvShows.thunk";
 import { ITVShow } from "../../interfaces/ITVShow";
 
 interface TVShowsState {
@@ -36,7 +36,7 @@ export const tvShowsSlice = createSlice({
                 state.status = 'loading';
             })
             .addCase(getTVShows.fulfilled, (state, action) => {
-                console.log("action.payload",action.payload)
+                // console.log("action.payload",action.payload)
                 const { category, page } = action.meta.arg;
                 state.status = 'succeeded';
                 state.tvShows[category] = action.payload;
@@ -44,6 +44,30 @@ export const tvShowsSlice = createSlice({
             .addCase(getTVShows.rejected, (state, action) => {
                 state.status = 'failed';
                 state.error = action.payload;
+            })
+            .addCase(getTVShow.pending, (state) => {
+                state.status = 'loading';
+            })
+            .addCase(getTVShow.fulfilled, (state, action) => {
+                state.status = 'succeeded';
+                console.log("action.payload", action.payload)
+                state.selectedTvShow = action.payload;
+            })
+            .addCase(getTVShow.rejected, (state, action) => {
+                state.status = 'failed';
+                state.error = action.payload;
+            })
+            // * GENRES *
+            .addCase(getGenres.pending, (state) => {
+                state.status = 'loading';
+            })
+            .addCase(getGenres.fulfilled, (state, action) => {
+                state.genres = action.payload;
+                state.status = 'succeeded';
+            })
+            .addCase(getGenres.rejected, (state, action) => {
+                state.error = action.payload;
+                state.status = 'failed';
             })
 
     }

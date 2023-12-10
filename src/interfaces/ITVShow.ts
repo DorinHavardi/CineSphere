@@ -1,8 +1,8 @@
 export interface ITVShow {
     adult: false;
     backdrop_path: string;
-    first_air_date: string | Date;
-    genre_ids: number[];
+    first_air_date: string;
+    genres: number[];
     id: number;
     name: string;
     origin_country: string[];
