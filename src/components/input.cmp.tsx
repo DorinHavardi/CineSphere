@@ -9,11 +9,12 @@ interface ICSInput {
     keyboardType?: KeyboardTypeOptions;
     icon?: ReactNode;
     secureTextEntry?: boolean;
-    onChangeText: (value: string) => void;
-    value?: string;
+    onChangeText?: (value: string) => void;
+    value?: string | null;
+    editable?: boolean;
 }
 
-const CSInput: FC<ICSInput> = ({ placeholder, keyboardType, icon, secureTextEntry, onChangeText, value }) => {
+const CSInput: FC<ICSInput> = ({ placeholder, keyboardType, icon, secureTextEntry, onChangeText, value, editable = true }) => {
     const [isFocused, setIsFocused] = useState<boolean>(false);
     const animatedIsFocused = useRef(new Animated.Value((value && value !== '') ? 1 : 0)).current;
 
@@ -39,7 +40,7 @@ const CSInput: FC<ICSInput> = ({ placeholder, keyboardType, icon, secureTextEntr
         }),
         color: animatedIsFocused.interpolate({
             inputRange: [0, 1],
-            outputRange: ['#aaa', Colors.accent1000],
+            outputRange: editable ? ['#aaa', Colors.accent1000] : ["#A9A9A9", "#A9A9A9"],
         }),
     };
 
@@ -49,15 +50,20 @@ const CSInput: FC<ICSInput> = ({ placeholder, keyboardType, icon, secureTextEntr
                 {placeholder}
             </Animated.Text>
             <TextInput
-                style={styles.input}
+                style={[styles.input, {
+                    color: editable ? Colors.accent1000 : "#A9A9A9",
+                    borderBottomColor: editable ? Colors.primary500 : 'transparent',
+                }]}
                 placeholderTextColor={Colors.primary500}
                 keyboardType={keyboardType}
                 secureTextEntry={secureTextEntry}
                 onChangeText={onChangeText}
-                value={value}
+                value={value || undefined}
                 onFocus={() => setIsFocused(true)}
                 onBlur={() => setIsFocused(false)}
                 blurOnSubmit
+                editable={editable}
+                autoCorrect={false}
             />
         </View>
     )
@@ -75,6 +81,5 @@ const styles = StyleSheet.create({
         marginBottom: 20,
         fontSize: getFontSizeByWindowWidth(18),
         fontFamily: Fonts.Poppins_Regular,
-
     }
 })

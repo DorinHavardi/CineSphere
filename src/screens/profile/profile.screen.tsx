@@ -1,4 +1,4 @@
-import { Image, StyleSheet, View } from 'react-native';
+import { Image, ScrollView, StyleSheet, View } from 'react-native';
 import React, { FC, useEffect, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTranslation } from 'react-i18next';
@@ -6,12 +6,15 @@ import { useAppDispatch, useAppSelector } from '../../store/store';
 import { CsButton, CsInput } from '../../components';
 import { signOut } from '../../utils/firebase.util';
 import { setUser } from '../../store/reducers/auth.slice';
+import { SCREEN_HEIGHT } from '../../utils/window.util';
 
 const Profile: FC = () => {
     const { t } = useTranslation();
     const dispatch = useAppDispatch();
     const { user } = useAppSelector(state => state.auth);
-    const { photoURL, displayName, firstName, lastName } = user!;
+    const { photoURL, email, displayName, firstName, lastName } = user!;
+
+    console.log(user)
 
     const [newFirstName, setNewFirstName] = useState<string | null>(
         firstName || null,
@@ -28,36 +31,46 @@ const Profile: FC = () => {
     }, [])
 
     return (
-        <SafeAreaView style={styles.container}>
-            {photoURL && <Image source={{ uri: photoURL }} style={styles.image} />}
-            <CsInput
-                placeholder={t('placeholders.first_name')}
-                onChangeText={(value: string) => setNewFirstName(value)}
-                value={newFirstName}
-            />
-            <CsInput
-                placeholder={t('placeholders.last_name')}
-                onChangeText={(value: string) => setNewLastName(value)}
-                value={newLastName}
-            />
-            <View style={styles.buttonsContainer}>
-                <CsButton
-                    text={t('profile.save')}
-                    buttonStyle={styles.logOutBtn}
-                    onPress={() => {
-                    }}
-                />
-                <CsButton
-                    outlined
-                    text={t('profile.logout')}
-                    buttonStyle={styles.logOutBtn}
-                    onPress={() => {
-                        dispatch(setUser(null));
-                        signOut();
-                    }}
-                />
-            </View>
-        </SafeAreaView>
+        <ScrollView showsVerticalScrollIndicator={false} alwaysBounceVertical={false}>
+            <SafeAreaView style={styles.container}>
+                <View style={styles.content}>
+                    {photoURL && <Image source={{ uri: photoURL }} style={styles.image} />}
+                    <CsInput
+                        placeholder={t('placeholders.email')}
+                        value={email}
+                        editable={false}
+                    />
+                    <CsInput
+                        placeholder={t('placeholders.first_name')}
+                        onChangeText={(value: string) => setNewFirstName(value)}
+                        value={newFirstName}
+                    />
+                    <CsInput
+                        placeholder={t('placeholders.last_name')}
+                        onChangeText={(value: string) => setNewLastName(value)}
+                        value={newLastName}
+                    />
+                </View>
+
+                <View style={styles.buttonsContainer}>
+                    <CsButton
+                        text={t('profile.save')}
+                        buttonStyle={styles.logOutBtn}
+                        onPress={() => {
+                        }}
+                    />
+                    <CsButton
+                        outlined
+                        text={t('profile.logout')}
+                        buttonStyle={styles.logOutBtn}
+                        onPress={() => {
+                            dispatch(setUser(null));
+                            signOut();
+                        }}
+                    />
+                </View>
+            </SafeAreaView>
+        </ScrollView>
     );
 };
 
@@ -66,9 +79,13 @@ export default Profile;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        height: SCREEN_HEIGHT,
         padding: 15,
         alignItems: 'center',
-        justifyContent: 'center',
+    },
+    content: {
+        marginTop: "10%",
+        alignItems: 'center',
     },
     image: {
         width: 150,
@@ -78,7 +95,7 @@ const styles = StyleSheet.create({
     },
     buttonsContainer: {
         position: 'absolute',
-        bottom: 50,
+        bottom: "18%",
     },
     logOutBtn: {
         marginTop: 25,
