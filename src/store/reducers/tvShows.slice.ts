@@ -36,7 +36,6 @@ export const tvShowsSlice = createSlice({
                 state.status = 'loading';
             })
             .addCase(getTVShows.fulfilled, (state, action) => {
-                // console.log("action.payload",action.payload)
                 const { category, page } = action.meta.arg;
                 state.status = 'succeeded';
                 state.tvShows[category] = action.payload;
@@ -50,7 +49,6 @@ export const tvShowsSlice = createSlice({
             })
             .addCase(getTVShow.fulfilled, (state, action) => {
                 state.status = 'succeeded';
-                console.log("action.payload", action.payload)
                 state.selectedTvShow = action.payload;
             })
             .addCase(getTVShow.rejected, (state, action) => {

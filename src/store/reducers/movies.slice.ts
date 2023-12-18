@@ -48,7 +48,6 @@ export const moviesSlice = createSlice({
             })
             .addCase(getMovie.fulfilled, (state, action) => {
                 state.status = 'succeeded';
-                console.log("action.payload", action.payload)
                 state.selectedMovie = action.payload;
             })
             .addCase(getMovie.rejected, (state, action) => {

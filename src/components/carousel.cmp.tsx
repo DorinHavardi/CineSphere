@@ -9,7 +9,6 @@ import { useAppDispatch } from '../store/store';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { MoviesStackParamsList } from '../navigation/types/MoviesStackParamsList';
 import { setIsTabBarVisible } from '../store/reducers/system.slice';
-import { EMovieStackRoutes } from '../enums/EMovieStackRoutes';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import { ITVShow } from '../interfaces/ITVShow';
@@ -17,15 +16,16 @@ import { getMovie } from '../store/thunks/movies.thunk';
 import { ETVShowsStackRoutes } from '../enums/ETVShowsStackRoutes';
 import { getTVShow } from '../store/thunks/tvShows.thunk';
 import { TVShowStackParamsList } from '../navigation/types/TVShowStackParamsList';
+import { setSelectedMovie } from '../store/reducers/movies.slice';
+import { setSelectedTvShow } from '../store/reducers/tvShows.slice';
+import { EMovieStackRoutes } from '../enums/EMovieStackRoutes';
 
-
+type IItem = IMovie | ITVShow;
 interface ICarousel {
     data: IMovie[] | ITVShow[];
     title?: string;
     onEndReached?: () => void;
 }
-
-type IItem = IMovie | ITVShow;
 
 const ItemCard = React.memo(({ item, onPress }: { item: IItem, onPress: () => void }) => {
     const title = (item as IMovie).title || (item as ITVShow).name;
@@ -41,17 +41,25 @@ const Carousel: FC<ICarousel> = ({ data, title, onEndReached }) => {
     const navigation = useNavigation<NativeStackNavigationProp<MoviesStackParamsList | TVShowStackParamsList>>();
     const dispatch = useAppDispatch();
 
-    const handlePress = useCallback((item: IItem) => {
+    const renderItem = ({ item }: { item: IItem }) => (
+        <ItemCard item={item} onPress={() => handlePress(item)} />
+    )
+
+    const handlePress = useCallback(async (item: IItem) => {
         const isMovie = (item as IMovie).title !== undefined;
+
         if (isMovie) {
-            dispatch(getMovie({ movieId: item.id }));
-            navigation.navigate(EMovieStackRoutes.SingleMovie);
+            const selectedMovie = await dispatch(getMovie({ movieId: item.id })).unwrap();
+            dispatch(setSelectedMovie(selectedMovie));
+            navigation.navigate(EMovieStackRoutes.SingleMovie as never);
         } else {
-            dispatch(getTVShow({ tvShowId: item.id }));
-            navigation.navigate(ETVShowsStackRoutes.SingleTVShow);
+            const selectedTVShow = await dispatch(getTVShow({ tvShowId: item.id })).unwrap();
+            dispatch(setSelectedTvShow(selectedTVShow));
+            navigation.navigate(ETVShowsStackRoutes.SingleTVShow as never);
         }
         dispatch(setIsTabBarVisible(false));
     }, [dispatch, navigation]);
+
 
 
     return (
@@ -61,9 +69,8 @@ const Carousel: FC<ICarousel> = ({ data, title, onEndReached }) => {
                 horizontal
                 showsHorizontalScrollIndicator={false}
                 data={data}
-                renderItem={({ item }) => (
-                    <ItemCard item={item} onPress={() => handlePress(item)} />
-                )} keyExtractor={(item) => item.id.toString()}
+                renderItem={renderItem}
+                keyExtractor={(item) => item.id.toString()}
                 style={styles.flatlist}
                 ListFooterComponent={() => (
                     <TouchableOpacity onPress={onEndReached} style={styles.endButton}>

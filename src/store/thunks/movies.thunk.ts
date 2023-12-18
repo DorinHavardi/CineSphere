@@ -22,6 +22,7 @@ export const getMovie = createAsyncThunk(
     async ({ movieId }: { movieId: number }, thunkAPI) => {
         try {
             const response = await axios.get(`https://api.themoviedb.org/3/movie/${movieId}?api_key=${API_KEY}&language=en-US`);
+            console.log("thunk response", response.data)
             return response.data;
         } catch (error: any) {
             return thunkAPI.rejectWithValue(error.response.data);
