@@ -1,9 +1,9 @@
-import { Image, ImageBackground, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native'
+import { Image, ImageBackground, ScrollView, StyleSheet, View } from 'react-native'
 import React, { useEffect } from 'react'
 import LinearGradient from 'react-native-linear-gradient'
 import { Colors } from '../../theme/colors'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { faChevronLeft, faStar } from '@fortawesome/free-solid-svg-icons'
+import { faStar } from '@fortawesome/free-solid-svg-icons'
 import { CsText } from '../../components'
 import { useNavigation } from '@react-navigation/native'
 import { ECSTextTypes } from '../../enums/ECSTextTypes'
@@ -30,8 +30,6 @@ const SingleTVShow = () => {
         }
     }, [isTabBarVisible])
 
-    console.log("selectedTvShow",selectedTvShow)
-
     return (
         <ScrollView showsVerticalScrollIndicator={false} alwaysBounceVertical={false} style={styles.scrollContainer}>
             <ImageBackground
@@ -49,9 +47,6 @@ const SingleTVShow = () => {
                     ]}
                     style={styles.gradient}
                 />
-                <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
-                    <FontAwesomeIcon icon={faChevronLeft} color={Colors.white} size={25} />
-                </TouchableOpacity>
             </ImageBackground>
             <View style={styles.container}>
                 <View style={{ alignItems: 'center' }}>

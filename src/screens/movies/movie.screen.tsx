@@ -30,8 +30,6 @@ const SingleMovie: FC = () => {
         }
     }, [isTabBarVisible])
 
-    console.log("selectedMovie", selectedMovie)
-
     return (
         <ScrollView showsVerticalScrollIndicator={false} alwaysBounceVertical={false} style={styles.scrollContainer}>
             <ImageBackground

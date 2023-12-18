@@ -4,8 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { EMovieStackRoutes } from '../enums/EMovieStackRoutes';
 import Main from '../screens/movies/main.screen';
 import SingleMovie from '../screens/movies/movie.screen';
-import { CsLogo } from '../components';
-import Header from '../components/header.cmp';
+import { CsHeader, CsLogo } from '../components';
 
 const Stack = createNativeStackNavigator();
 
@@ -14,18 +13,18 @@ const MoviesRoutes = () => {
         <Stack.Navigator initialRouteName={EMovieStackRoutes.Main}>
             <Stack.Screen
                 name={EMovieStackRoutes.Main}
+                component={Main}
                 options={{
                     header: () => <CsLogo />
                 }}
-                component={Main}
             />
             <Stack.Screen
                 name={EMovieStackRoutes.SingleMovie}
+                component={SingleMovie}
                 options={{
-                    // headerShown: false,
-                    header: () => <Header />
+                    header: () => <CsHeader />
                 }}
-                component={SingleMovie} />
+            />
         </Stack.Navigator>
 
     )
