@@ -14,8 +14,6 @@ const Profile: FC = () => {
     const { user } = useAppSelector(state => state.auth);
     const { photoURL, email, displayName, firstName, lastName } = user!;
 
-    console.log(user)
-
     const [newFirstName, setNewFirstName] = useState<string | null>(
         firstName || null,
     );

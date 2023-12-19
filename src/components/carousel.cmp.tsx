@@ -19,8 +19,7 @@ import { TVShowStackParamsList } from '../navigation/types/TVShowStackParamsList
 import { setSelectedMovie } from '../store/reducers/movies.slice';
 import { setSelectedTvShow } from '../store/reducers/tvShows.slice';
 import { EMovieStackRoutes } from '../enums/EMovieStackRoutes';
-
-type IItem = IMovie | ITVShow;
+import { IItem } from '../types/item.type';
 interface ICarousel {
     data: IMovie[] | ITVShow[];
     title?: string;

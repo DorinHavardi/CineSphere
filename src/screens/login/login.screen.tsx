@@ -9,9 +9,9 @@ import { SCREEN_HEIGHT } from '../../utils/window.util';
 import { ECSTextTypes } from '../../enums/ECSTextTypes';
 import { ESocialConnectButtonTypes } from '../../enums/ESocialConnectButtonTypes';
 import { useAppDispatch } from '../../store/store';
-import { setUser } from '../../store/reducers/auth.slice';
 import { setIsLoading } from '../../store/reducers/system.slice';
 import { EMainStackNavigator } from '../../enums/EMainStackNavigator';
+import { setUser } from '../../store/reducers/auth.slice';
 
 const Login: FC = () => {
     const navigation = useNavigation();
@@ -30,7 +30,9 @@ const Login: FC = () => {
                 <CsInput placeholder='Password' onChangeText={(value: string) => setPassword(value)} secureTextEntry />
                 <CsButton text="Login" onPress={() => signInWithEmailPassword(email, password)} buttonStyle={{ marginTop: 50 }} />
                 <View style={styles.socialConnectContainer}>
-                    <CsText type={ECSTextTypes.Small} style={styles.noAccountText}>{t('login.social_login_subtitle')} </CsText>
+                    <CsText type={ECSTextTypes.Small} style={styles.noAccountText}>
+                        {t('login.social_login_subtitle')}
+                    </CsText>
                     <View style={styles.socialButtonsContainer}>
                         <CsSocialConnect
                             type={ESocialConnectButtonTypes.Google}
@@ -39,6 +41,7 @@ const Login: FC = () => {
                                 signInWithGoogle()
                                     .then(googleUser => {
                                         const userData = {
+                                            id: googleUser?.user?.uid,
                                             email: googleUser?.user?.email,
                                             displayName: googleUser?.user?.displayName,
                                             photoURL: googleUser?.user?.photoURL,
@@ -53,7 +56,7 @@ const Login: FC = () => {
             </View>
             <View style={styles.noAccount}>
                 <CsText type={ECSTextTypes.Small} style={styles.noAccountText}> {t('login.dont_have_an_account')}</CsText>
-                <Pressable onPress={() => navigation.navigate(EMainStackNavigator.Register)}>
+                <Pressable onPress={() => navigation.navigate(EMainStackNavigator.Register as never)}>
                     <CsText type={ECSTextTypes.Small} style={[styles.noAccountText, { color: Colors.accent1000 }]}>
                         {t('register.title')}
                     </CsText>
