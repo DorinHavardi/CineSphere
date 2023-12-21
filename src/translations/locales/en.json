@@ -3,6 +3,7 @@
     "tabs": {
         "movies": "Movies",
         "tvShows": "TV Shows",
+        "find": "Find",
         "profile": "Profile"
     },
     "placeholders": {
@@ -51,5 +52,9 @@
     "favorites": {
         "movies_title": "My favorite Movies",
         "tv_shows_title": "My favorite TV Shows"
+    },
+    "search": {
+        "results": "Found {{amount}} results:",
+        "no_results": "No Results"
     }
 }

@@ -25,6 +25,7 @@ interface ICarousel {
     title?: string;
     onEndReached?: () => void;
     showChevron?: boolean;
+    horizontal?: boolean;
 }
 
 const ItemCard = React.memo(({ item, onPress }: { item: IItem, onPress: () => void }) => {
@@ -37,7 +38,7 @@ const ItemCard = React.memo(({ item, onPress }: { item: IItem, onPress: () => vo
     )
 });
 
-const Carousel: FC<ICarousel> = ({ data, title, onEndReached, showChevron = true }) => {
+const Carousel: FC<ICarousel> = ({ data, title, onEndReached, showChevron = true, horizontal = true }) => {
     const navigation = useNavigation<NativeStackNavigationProp<MoviesStackParamsList | TVShowStackParamsList>>();
     const dispatch = useAppDispatch();
 
@@ -66,9 +67,11 @@ const Carousel: FC<ICarousel> = ({ data, title, onEndReached, showChevron = true
         <>
             {title && <CsText type={ECSTextTypes.Big} style={{ marginBottom: 10 }}>{title}</CsText>}
             <FlatList
-                horizontal
+                horizontal={horizontal}
                 showsHorizontalScrollIndicator={false}
+                showsVerticalScrollIndicator={false}
                 data={data}
+                numColumns={!horizontal ? 2 : undefined}
                 renderItem={renderItem}
                 keyExtractor={(item) => item.id.toString()}
                 style={styles.flatlist}

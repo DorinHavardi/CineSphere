@@ -18,14 +18,16 @@ const ProfileRoutes = () => {
                     headerShown: true
                 }}
             />
-            <Stack.Screen
-                name={EProfileStackRoutes.MyFavorites}
-                component={FavoritesScreen}
-                options={{
-                    header: () => <CsHeader currentItem={null} canGoBack={true} showFavorite={false} />,
-                    headerShown: true
-                }}
-            />
+            <Stack.Group screenOptions={{ presentation: 'fullScreenModal' }}>
+                <Stack.Screen
+                    name={EProfileStackRoutes.MyFavorites}
+                    component={FavoritesScreen}
+                    options={{
+                        header: () => <CsHeader currentItem={null} canGoBack={true} showFavorite={false} />,
+                        headerShown: true
+                    }}
+                />
+            </Stack.Group>
         </Stack.Navigator>
 
     )

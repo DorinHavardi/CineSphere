@@ -1,5 +1,6 @@
 export enum ETabNavigator {
     MoviesRoutes = 'moviesRoutes',
     TVShowsRoutes = 'tvShowsRoutes',
-    Profile = 'profile'
+    Profile = 'profile',
+    Search = 'search'
 }

@@ -4,7 +4,7 @@ import { StyleSheet } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useTranslation } from 'react-i18next';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faUser, faClapperboard, faTv } from '@fortawesome/free-solid-svg-icons';
+import { faUser, faClapperboard, faTv, faCompass } from '@fortawesome/free-solid-svg-icons';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { MoviesRoutes, ProfileRoutes, TVShowsRoutes } from '.';
 import { CsText } from '../components';
@@ -16,6 +16,7 @@ import { SCREEN_HEIGHT, getFontSizeByWindowWidth } from '../utils/window.util';
 import { getFavoritesFromFirebase } from '../utils/firebase.util';
 import { ETabNavigator } from '../enums/ETabNavigator';
 import { ECSTextTypes } from '../enums/ECSTextTypes';
+import { SearchScreen } from '../screens';
 
 const Tab = createBottomTabNavigator();
 
@@ -73,6 +74,11 @@ const TabNavigator = () => {
                 name={ETabNavigator.TVShowsRoutes}
                 component={TVShowsRoutes}
                 options={createTabOptions(faTv, 'tvShows')}
+            />
+            <Tab.Screen
+                name={ETabNavigator.Search}
+                component={SearchScreen}
+                options={createTabOptions(faCompass, 'find')}
             />
             <Tab.Screen
                 name={ETabNavigator.Profile}
