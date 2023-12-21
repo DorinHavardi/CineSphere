@@ -5,19 +5,17 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useTranslation } from 'react-i18next';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faUser, faClapperboard, faTv } from '@fortawesome/free-solid-svg-icons';
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
+import { MoviesRoutes, ProfileRoutes, TVShowsRoutes } from '.';
+import { CsText } from '../components';
+import { useAppDispatch, useAppSelector } from '../store/store';
+import { setFavorites } from '../store/reducers/auth.slice';
 import { Colors } from '../theme/colors';
 import { Fonts } from '../theme/fonts';
 import { SCREEN_HEIGHT, getFontSizeByWindowWidth } from '../utils/window.util';
-import MoviesRoutes from './movies.routes';
-import { useAppDispatch, useAppSelector } from '../store/store';
-import { ETabNavigator } from '../enums/ETabNavigator';
-import { CsText } from '../components';
-import { ECSTextTypes } from '../enums/ECSTextTypes';
-import TVShowsRoutes from './tvShows.routes';
-import { IconProp } from '@fortawesome/fontawesome-svg-core';
-import ProfileRoutes from './profile.routes';
 import { getFavoritesFromFirebase } from '../utils/firebase.util';
-import { setFavorites } from '../store/reducers/auth.slice';
+import { ETabNavigator } from '../enums/ETabNavigator';
+import { ECSTextTypes } from '../enums/ECSTextTypes';
 
 const Tab = createBottomTabNavigator();
 

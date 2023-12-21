@@ -2,14 +2,13 @@ import React, { FC, useEffect, useState } from 'react';
 import { StatusBar } from 'react-native';
 import MainLayout from './src/theme/mainLayout.cmp';
 import { NavigationContainer } from '@react-navigation/native';
-import AuthStackNavigator from './src/navigation/auth.routes';
 import { Provider } from 'react-redux';
-import TabNavigator from './src/navigation/tab.routes';
 import { PersistGate } from 'redux-persist/integration/react';
 import { persistor, store, useAppSelector } from './src/store/store';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import i18n from './src/translations/i18n';
 import { CsLoader } from './src/components';
+import { AuthStackNavigator, TabNavigator } from './src/navigation';
 
 export const MainApp: FC = () => {
   const { user } = useAppSelector(state => state.auth);

@@ -1,0 +1,5 @@
+export { default as AuthStackNavigator } from './auth.routes'
+export { default as TabNavigator } from './tab.routes'
+export { default as MoviesRoutes } from './movies.routes'
+export { default as TVShowsRoutes } from './tvShows.routes'
+export { default as ProfileRoutes } from './profile.routes'

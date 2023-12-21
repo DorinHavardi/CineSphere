@@ -3,9 +3,8 @@ import { StyleSheet } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { ETVShowsStackRoutes } from '../enums/ETVShowsStackRoutes';
 import { CsHeader, CsLogo } from '../components';
-import TvShowsMain from '../screens/tvShows/main.screen';
-import SingleTVShow from '../screens/tvShows/tvShow.screen';
 import { useAppSelector } from '../store/store';
+import { TvShowScreen, TvShowsScreen } from '../screens';
 
 const Stack = createNativeStackNavigator();
 
@@ -15,14 +14,14 @@ const TVShowsRoutes = () => {
         <Stack.Navigator initialRouteName={ETVShowsStackRoutes.Main}>
             <Stack.Screen
                 name={ETVShowsStackRoutes.Main}
-                component={TvShowsMain}
+                component={TvShowsScreen}
                 options={{
                     header: () => <CsLogo />
                 }}
             />
             <Stack.Screen
                 name={ETVShowsStackRoutes.SingleTVShow}
-                component={SingleTVShow}
+                component={TvShowScreen}
                 options={{
                     header: () => <CsHeader currentItem={selectedTvShow!} />
                 }}
