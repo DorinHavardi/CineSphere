@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { StyleSheet } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useTranslation } from 'react-i18next';
@@ -9,19 +9,29 @@ import { Colors } from '../theme/colors';
 import { Fonts } from '../theme/fonts';
 import { SCREEN_HEIGHT, getFontSizeByWindowWidth } from '../utils/window.util';
 import MoviesRoutes from './movies.routes';
-import { useAppSelector } from '../store/store';
+import { useAppDispatch, useAppSelector } from '../store/store';
 import { ETabNavigator } from '../enums/ETabNavigator';
-import Profile from '../screens/profile/profile.screen';
 import { CsText } from '../components';
 import { ECSTextTypes } from '../enums/ECSTextTypes';
 import TVShowsRoutes from './tvShows.routes';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
+import ProfileRoutes from './profile.routes';
+import { getFavoritesFromFirebase } from '../utils/firebase.util';
+import { setFavorites } from '../store/reducers/auth.slice';
 
 const Tab = createBottomTabNavigator();
 
 const TabNavigator = () => {
     const { t } = useTranslation();
+    const dispatch = useAppDispatch();
     const { isTabBarVisible } = useAppSelector((state) => state.system)
+    const { id: userId, favorites } = useAppSelector(state => state.auth.user!)
+
+    useEffect(() => {
+        getFavoritesFromFirebase(userId!)
+            .then(fetchedFavorites => dispatch(setFavorites(fetchedFavorites)))
+            .catch(error => console.error('Error fetching favorites:', error));
+    }, [userId, favorites]);
 
     const createTabOptions = (icon: IconProp, labelKey: string) => ({
         headerShown: false,
@@ -68,7 +78,7 @@ const TabNavigator = () => {
             />
             <Tab.Screen
                 name={ETabNavigator.Profile}
-                component={Profile}
+                component={ProfileRoutes}
                 options={createTabOptions(faUser, 'profile')}
             />
         </Tab.Navigator>
@@ -96,6 +106,5 @@ const styles = StyleSheet.create({
         fontSize: getFontSizeByWindowWidth(15),
         fontFamily: Fonts.Poppins_Regular,
         color: Colors.accent1000,
-        marginBottom: 7,
     }
 })

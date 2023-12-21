@@ -47,5 +47,9 @@
         "title": "Hi {{username}}",
         "save": "Save",
         "logout": "Logout"
+    },
+    "favorites": {
+        "movies_title": "My favorite Movies",
+        "tv_shows_title": "My favorite TV Shows"
     }
 }

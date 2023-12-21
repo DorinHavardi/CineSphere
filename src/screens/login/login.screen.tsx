@@ -10,7 +10,7 @@ import { ECSTextTypes } from '../../enums/ECSTextTypes';
 import { ESocialConnectButtonTypes } from '../../enums/ESocialConnectButtonTypes';
 import { useAppDispatch } from '../../store/store';
 import { setIsLoading } from '../../store/reducers/system.slice';
-import { EMainStackNavigator } from '../../enums/EMainStackNavigator';
+import { EAuthStackNavigator } from '../../enums/EAuthStackNavigator';
 import { setUser } from '../../store/reducers/auth.slice';
 
 const Login: FC = () => {
@@ -56,7 +56,7 @@ const Login: FC = () => {
             </View>
             <View style={styles.noAccount}>
                 <CsText type={ECSTextTypes.Small} style={styles.noAccountText}> {t('login.dont_have_an_account')}</CsText>
-                <Pressable onPress={() => navigation.navigate(EMainStackNavigator.Register as never)}>
+                <Pressable onPress={() => navigation.navigate(EAuthStackNavigator.Register as never)}>
                     <CsText type={ECSTextTypes.Small} style={[styles.noAccountText, { color: Colors.accent1000 }]}>
                         {t('register.title')}
                     </CsText>

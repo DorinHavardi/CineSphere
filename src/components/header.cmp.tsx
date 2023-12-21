@@ -1,5 +1,5 @@
-import { TouchableOpacity, StyleSheet, SafeAreaView } from 'react-native'
-import React, { FC, useEffect, useState } from 'react'
+import { TouchableOpacity, StyleSheet, SafeAreaView, View } from 'react-native'
+import React, { FC } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons'
 import { faHeart } from '@fortawesome/free-regular-svg-icons'
@@ -8,44 +8,59 @@ import { Colors } from '../theme/colors'
 import { useNavigation } from '@react-navigation/native'
 import { SCREEN_WIDTH } from '../utils/window.util'
 import { IItem } from '../types/item.type'
-import { getFavoritesFromFirebase, removeFavoriteFromFirebase, saveFavoritesToFirebase } from '../utils/firebase.util'
-import { useAppSelector } from '../store/store'
+import { removeFavoriteFromFirebase, saveFavoritesToFirebase } from '../utils/firebase.util'
+import { useAppDispatch, useAppSelector } from '../store/store'
+import { EProfileStackRoutes } from '../enums/EProfileStackRoutes'
+import { NativeStackNavigationProp } from '@react-navigation/native-stack'
+import { ProfileStackParamsList } from '../navigation/types/ProfileStackParamsList'
+import { setFavorites } from '../store/reducers/auth.slice'
 
 interface IHeader {
-    currentItem: IItem;
+    currentItem: IItem | null;
+    canGoBack?: boolean;
+    showFavorite?: boolean;
 }
 
-const Header: FC<IHeader> = ({ currentItem }) => {
-    const navigation = useNavigation();
-    const { id: userId } = useAppSelector(state => state.auth.user)
-    const [favorites, setFavorites] = useState<IItem[]>([]);
+const Header: FC<IHeader> = ({ currentItem, canGoBack = true, showFavorite = true }) => {
+    const navigation = useNavigation<NativeStackNavigationProp<ProfileStackParamsList>>();
+    const dispatch = useAppDispatch();
+    const { id: userId, favorites } = useAppSelector(state => state.auth.user!)
 
-    useEffect(() => {
-        getFavoritesFromFirebase(userId)
-            .then(fetchedFavorites => setFavorites(fetchedFavorites))
-            .catch(error => console.error('Error fetching favorites:', error));
-    }, [userId, favorites]);
 
-    const isFavorite = favorites.some(favorite => favorite.id === currentItem.id);
+    const isFavorite = canGoBack ? favorites?.some(favorite => favorite.id === currentItem?.id) : false;
 
     const handleFavoritePress = async () => {
-        if (isFavorite) {
-            await removeFavoriteFromFirebase(userId, currentItem);
-        } else {
-            await saveFavoritesToFirebase(userId, currentItem);
-            // Update the local state to reflect the new favorites
-            setFavorites([...favorites, currentItem]);
+        if (!canGoBack) {
+            navigation.navigate(EProfileStackRoutes.MyFavorites)
+        }
+        else {
+            if (isFavorite) {
+                await removeFavoriteFromFirebase(userId!, currentItem!);
+            } else {
+                await saveFavoritesToFirebase(userId!, currentItem!);
+                // Update the local state to reflect the new favorites
+                if (favorites) {
+                    dispatch(setFavorites([...favorites, currentItem!]))
+                };
+            }
         }
     };
 
     return (
-        <SafeAreaView style={styles.container}>
-            <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
-                <FontAwesomeIcon icon={faChevronLeft} color={Colors.white} size={25} />
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => handleFavoritePress()} style={styles.backButton}>
-                <FontAwesomeIcon icon={isFavorite ? faHeartFilled : faHeart} color={Colors.contrast} size={25} />
-            </TouchableOpacity>
+        <SafeAreaView style={[styles.container, { backgroundColor: showFavorite ? 'transparent' : Colors.primary1000 }]}>
+            <View>
+                {canGoBack &&
+                    <TouchableOpacity onPress={() => navigation.goBack()} style={styles.button}>
+                        <FontAwesomeIcon icon={faChevronLeft} color={Colors.white} size={25} />
+                    </TouchableOpacity>
+                }
+            </View>
+            <View>
+                {showFavorite &&
+                    <TouchableOpacity onPress={() => handleFavoritePress()} style={styles.button}>
+                        <FontAwesomeIcon icon={isFavorite ? faHeartFilled : faHeart} color={Colors.contrast} size={25} />
+                    </TouchableOpacity>}
+            </View>
         </SafeAreaView>
     )
 }
@@ -57,9 +72,11 @@ const styles = StyleSheet.create({
         position: 'absolute',
         width: SCREEN_WIDTH,
         flexDirection: 'row',
-        justifyContent: 'space-between'
-    },
-    backButton: {
+        justifyContent: 'space-between',
         paddingHorizontal: 10,
+        height: 100,
+    },
+    button: {
+        paddingHorizontal: 20,
     },
 })

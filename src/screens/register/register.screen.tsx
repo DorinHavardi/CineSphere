@@ -9,7 +9,7 @@ import { signUpWithEmailPassword } from '../../utils/firebase.util';
 import { setUser } from '../../store/reducers/auth.slice';
 import { useAppDispatch } from '../../store/store';
 import { ECSTextTypes } from '../../enums/ECSTextTypes';
-import { EMainStackNavigator } from '../../enums/EMainStackNavigator';
+import { EAuthStackNavigator } from '../../enums/EAuthStackNavigator';
 
 const Register = () => {
     const navigation = useNavigation();
@@ -50,7 +50,7 @@ const Register = () => {
                 </View>
                 <View style={styles.alreadyAccount}>
                     <CsText type={ECSTextTypes.Small} style={styles.alreadyAccountText}>{t('register.already_have_an_account')}</CsText>
-                    <Pressable onPress={() => navigation.navigate(EMainStackNavigator.Login)}>
+                    <Pressable onPress={() => navigation.navigate(EAuthStackNavigator.Login)}>
                         <CsText type={ECSTextTypes.Small} style={[styles.alreadyAccountText, { color: Colors.accent1000 }]}>
                             {t('login.title')}
                         </CsText>

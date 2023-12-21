@@ -7,6 +7,7 @@ import { CsButton, CsInput } from '../../components';
 import { signOut } from '../../utils/firebase.util';
 import { setUser } from '../../store/reducers/auth.slice';
 import { SCREEN_HEIGHT } from '../../utils/window.util';
+import { Colors } from '../../theme/colors';
 
 const Profile: FC = () => {
     const { t } = useTranslation();
@@ -29,7 +30,7 @@ const Profile: FC = () => {
     }, [])
 
     return (
-        <ScrollView showsVerticalScrollIndicator={false} alwaysBounceVertical={false}>
+        <ScrollView showsVerticalScrollIndicator={false} alwaysBounceVertical={false} style={{ backgroundColor: Colors.primary1000 }}>
             <SafeAreaView style={styles.container}>
                 <View style={styles.content}>
                     {photoURL && <Image source={{ uri: photoURL }} style={styles.image} />}
@@ -80,6 +81,7 @@ const styles = StyleSheet.create({
         height: SCREEN_HEIGHT,
         padding: 15,
         alignItems: 'center',
+        backgroundColor: Colors.primary1000,
     },
     content: {
         marginTop: "10%",

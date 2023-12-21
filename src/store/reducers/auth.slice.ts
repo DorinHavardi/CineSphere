@@ -18,11 +18,14 @@ const authSlice = createSlice({
         setUser: (state, action: PayloadAction<IUser | null | undefined>) => {
             state.user = action.payload;
         },
+        setFavorites: (state, action) => {
+            state.user!.favorites = action.payload;
+        },
         setError: (state, action: PayloadAction<string>) => {
             state.error = action.payload;
         },
     },
 });
 
-export const { setUser, setError } = authSlice.actions;
+export const { setUser, setFavorites, setError } = authSlice.actions;
 export default authSlice.reducer;

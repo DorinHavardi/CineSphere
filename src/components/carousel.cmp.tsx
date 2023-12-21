@@ -24,6 +24,7 @@ interface ICarousel {
     data: IMovie[] | ITVShow[];
     title?: string;
     onEndReached?: () => void;
+    showChevron?: boolean;
 }
 
 const ItemCard = React.memo(({ item, onPress }: { item: IItem, onPress: () => void }) => {
@@ -36,7 +37,7 @@ const ItemCard = React.memo(({ item, onPress }: { item: IItem, onPress: () => vo
     )
 });
 
-const Carousel: FC<ICarousel> = ({ data, title, onEndReached }) => {
+const Carousel: FC<ICarousel> = ({ data, title, onEndReached, showChevron = true }) => {
     const navigation = useNavigation<NativeStackNavigationProp<MoviesStackParamsList | TVShowStackParamsList>>();
     const dispatch = useAppDispatch();
 
@@ -71,13 +72,13 @@ const Carousel: FC<ICarousel> = ({ data, title, onEndReached }) => {
                 renderItem={renderItem}
                 keyExtractor={(item) => item.id.toString()}
                 style={styles.flatlist}
-                ListFooterComponent={() => (
+                ListFooterComponent={() => showChevron ? (
                     <TouchableOpacity onPress={onEndReached} style={styles.endButton}>
                         <CsText type={ECSTextTypes.Biggest}>
                             <FontAwesomeIcon icon={faArrowRight} color={Colors.accent1000} size={30} />
                         </CsText>
                     </TouchableOpacity>
-                )}
+                ) : null}
             />
         </>
     )

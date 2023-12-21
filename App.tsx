@@ -2,7 +2,7 @@ import React, { FC, useEffect, useState } from 'react';
 import { StatusBar } from 'react-native';
 import MainLayout from './src/theme/mainLayout.cmp';
 import { NavigationContainer } from '@react-navigation/native';
-import StackNavigator from './src/navigation/stack.routes';
+import AuthStackNavigator from './src/navigation/auth.routes';
 import { Provider } from 'react-redux';
 import TabNavigator from './src/navigation/tab.routes';
 import { PersistGate } from 'redux-persist/integration/react';
@@ -14,8 +14,6 @@ import { CsLoader } from './src/components';
 export const MainApp: FC = () => {
   const { user } = useAppSelector(state => state.auth);
   const { isLoading } = useAppSelector(state => state.system);
-  const { status } = useAppSelector((state) => state.movies);
-
 
   useEffect(() => {
   }, [user])
@@ -24,7 +22,7 @@ export const MainApp: FC = () => {
     <MainLayout>
       <StatusBar barStyle={'light-content'} />
       <SafeAreaView style={{ flex: 1 }}>
-        {user! && user!.email ? <TabNavigator /> : <StackNavigator />}
+        {user! && user!.email ? <TabNavigator /> : <AuthStackNavigator />}
         {isLoading ? <CsLoader /> : null}
       </SafeAreaView>
     </MainLayout>
