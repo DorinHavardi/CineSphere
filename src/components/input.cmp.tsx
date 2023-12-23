@@ -12,9 +12,10 @@ interface ICSInput {
     onChangeText?: (value: string) => void;
     value?: string | null;
     editable?: boolean;
+    style?: TextStyle;
 }
 
-const CSInput: FC<ICSInput> = ({ placeholder, keyboardType, icon, secureTextEntry, onChangeText, value, editable = true }) => {
+const CSInput: FC<ICSInput> = ({ style, placeholder, keyboardType, icon, secureTextEntry, onChangeText, value, editable = true }) => {
     const [isFocused, setIsFocused] = useState<boolean>(false);
     const animatedIsFocused = useRef(new Animated.Value((value && value !== '') ? 1 : 0)).current;
 
@@ -53,7 +54,8 @@ const CSInput: FC<ICSInput> = ({ placeholder, keyboardType, icon, secureTextEntr
                 style={[styles.input, {
                     color: editable ? Colors.accent1000 : "#A9A9A9",
                     borderBottomColor: editable ? Colors.primary500 : 'transparent',
-                }]}
+                }, style]}
+                selectionColor={Colors.primary500}
                 placeholderTextColor={Colors.primary500}
                 keyboardType={keyboardType}
                 secureTextEntry={secureTextEntry}

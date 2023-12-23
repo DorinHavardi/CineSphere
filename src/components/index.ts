@@ -6,3 +6,4 @@ export { default as CsLoader } from './loader.cmp';
 export { default as CsCarousel } from './carousel.cmp'
 export { default as CsLogo } from './logo.cmp'
 export { default as CsHeader } from './header.cmp'
+export { default as CsCastList } from './castList.cmp'

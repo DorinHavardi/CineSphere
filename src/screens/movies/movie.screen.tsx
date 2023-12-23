@@ -1,4 +1,4 @@
-import { Image, ImageBackground, ScrollView, StyleSheet, View } from 'react-native';
+import { ImageBackground, ScrollView, StyleSheet, View } from 'react-native';
 import React, { FC, useEffect } from 'react';
 import { Colors } from '../../theme/colors';
 import { SCREEN_HEIGHT } from '../../utils/window.util';
@@ -7,17 +7,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 import { getReleaseYear, voteAverageToStarRating } from '../../utils/TMDB.util';
 import { ECSTextTypes } from '../../enums/ECSTextTypes';
-import { ICast } from '../../interfaces/ICast';
 import { setIsTabBarVisible } from '../../store/reducers/system.slice';
 import { useAppDispatch, useAppSelector } from '../../store/store';
 import { getMovieCast } from '../../store/thunks/movies.thunk';
-import { CsText } from '../../components';
-import { useTranslation } from 'react-i18next';
+import { CsCastList, CsText } from '../../components';
 import { IGenre } from '../../interfaces/IGenre';
 import { setSelectedMovie } from '../../store/reducers/movies.slice';
 
 const SingleMovie: FC = () => {
-    const { t } = useTranslation();
     const dispatch = useAppDispatch()
     const { selectedMovie } = useAppSelector(state => state.movies)
     const { isTabBarVisible } = useAppSelector(state => state.system)
@@ -64,22 +61,7 @@ const SingleMovie: FC = () => {
                 </View>
                 <CsText type={ECSTextTypes.Smaller}>{selectedMovie!.overview}</CsText>
                 {selectedMovie!.cast &&
-                    <>
-                        <CsText type={ECSTextTypes.Small} style={styles.castTitle}>
-                            {t('movie_screen.cast')}
-                        </CsText>
-                        <ScrollView style={{ flexDirection: 'row' }} horizontal showsHorizontalScrollIndicator={false}>
-                            {selectedMovie!.cast && selectedMovie?.cast.map((actor: ICast, index: number) => {
-                                if (index < 5)
-                                    return (
-                                        <View style={styles.castContainer} key={index}>
-                                            <Image style={styles.actorImage} source={{ uri: `https://image.tmdb.org/t/p/w500${actor.profile_path}` }} />
-                                            <CsText type={ECSTextTypes.Smaller} style={{ textAlign: 'center' }} maxLength={12}>{actor.name}</CsText>
-                                        </View>
-                                    )
-                            })}
-                        </ScrollView>
-                    </>
+                    <CsCastList cast={selectedMovie!.cast} />
                 }
             </View>
         </ScrollView>
@@ -120,20 +102,4 @@ const styles = StyleSheet.create({
         marginBottom: 20,
         textAlign: 'center'
     },
-    castTitle: {
-        marginVertical: 10,
-        fontWeight: 'bold'
-    },
-    castContainer: {
-        flexDirection: 'column',
-        alignItems: 'center',
-        marginHorizontal: 10
-    },
-    actorImage: {
-        height: 100,
-        width: 100,
-        borderRadius: 50,
-        borderWidth: 2,
-        borderColor: Colors.primary500
-    }
 })

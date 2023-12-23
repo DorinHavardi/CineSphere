@@ -5,7 +5,7 @@ import { EMoviesCategories } from '../../enums/ETMDBCategories';
 
 const API_KEY = Config.TMDB_API_KEY;
 const BASE_URL = Config.BASE_URL;
-console.log("BASE_URL", BASE_URL)
+
 export const getMovies = createAsyncThunk(
     'movies/getMovies',
     async ({ category, page }: { category: EMoviesCategories, page: number }, thunkAPI) => {

@@ -1,15 +1,12 @@
-import { Image, ImageBackground, ScrollView, StyleSheet, View } from 'react-native'
+import { ImageBackground, ScrollView, StyleSheet, View } from 'react-native'
 import React, { useEffect } from 'react'
 import LinearGradient from 'react-native-linear-gradient'
 import { Colors } from '../../theme/colors'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faStar } from '@fortawesome/free-solid-svg-icons'
-import { CsText } from '../../components'
-import { useNavigation } from '@react-navigation/native'
+import { CsCastList, CsText } from '../../components'
 import { ECSTextTypes } from '../../enums/ECSTextTypes'
 import { getReleaseYear, voteAverageToStarRating } from '../../utils/TMDB.util'
-import { useTranslation } from 'react-i18next'
-import { ICast } from '../../interfaces/ICast'
 import { SCREEN_HEIGHT } from '../../utils/window.util'
 import { useAppDispatch, useAppSelector } from '../../store/store'
 import { getTvShowCast } from '../../store/thunks/tvShows.thunk'
@@ -17,8 +14,6 @@ import { setIsTabBarVisible } from '../../store/reducers/system.slice'
 import { IGenre } from '../../interfaces/IGenre'
 
 const SingleTVShow = () => {
-    const navigation = useNavigation();
-    const { t } = useTranslation();
     const dispatch = useAppDispatch()
     const { selectedTvShow } = useAppSelector(state => state.tvShows)
     const { isTabBarVisible } = useAppSelector(state => state.system)
@@ -61,21 +56,9 @@ const SingleTVShow = () => {
                     </View>
                 </View>
                 <CsText type={ECSTextTypes.Smaller}>{selectedTvShow!.overview}</CsText>
-                {selectedTvShow?.cast && <>
-                    <CsText type={ECSTextTypes.Small} style={styles.castTitle}>
-                        {t('tvShow_screen.cast')}
-                    </CsText>
-                    <ScrollView style={{ flexDirection: 'row' }} horizontal showsHorizontalScrollIndicator={false}>
-                        {selectedTvShow?.cast && selectedTvShow.cast.map((actor: ICast, index: number) => {
-                            if (index < 5)
-                                return (
-                                    <View style={styles.castContainer} key={index}>
-                                        <Image style={styles.actorImage} source={{ uri: `https://image.tmdb.org/t/p/w500${actor.profile_path}` }} />
-                                        <CsText type={ECSTextTypes.Smaller} style={{ textAlign: 'center' }} maxLength={12}>{actor.name}</CsText>
-                                    </View>
-                                )
-                        })}
-                    </ScrollView></>}
+                {selectedTvShow?.cast &&
+                    <CsCastList cast={selectedTvShow!.cast} />
+                }
             </View>
         </ScrollView>
 
@@ -121,20 +104,4 @@ const styles = StyleSheet.create({
         marginBottom: 20,
         textAlign: 'center'
     },
-    castTitle: {
-        marginVertical: 10,
-        fontWeight: 'bold'
-    },
-    castContainer: {
-        flexDirection: 'column',
-        alignItems: 'center',
-        marginHorizontal: 10
-    },
-    actorImage: {
-        height: 100,
-        width: 100,
-        borderRadius: 50,
-        borderWidth: 2,
-        borderColor: Colors.primary500
-    }
 })

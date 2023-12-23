@@ -1,4 +1,4 @@
-import { FlatList, Image, StyleSheet, TouchableOpacity } from 'react-native';
+import { FlatList, Image, StyleSheet, TextStyle, TouchableOpacity } from 'react-native';
 import React, { FC, useCallback } from 'react';
 import { IMovie } from '../interfaces/IMovie';
 import { CsText } from '.';
@@ -21,11 +21,12 @@ import { setSelectedTvShow } from '../store/reducers/tvShows.slice';
 import { EMovieStackRoutes } from '../enums/EMovieStackRoutes';
 import { IItem } from '../types/item.type';
 interface ICarousel {
-    data: IMovie[] | ITVShow[];
+    data: IItem[];
     title?: string;
     onEndReached?: () => void;
     showChevron?: boolean;
     horizontal?: boolean;
+    titleStyle: TextStyle;
 }
 
 const ItemCard = React.memo(({ item, onPress }: { item: IItem, onPress: () => void }) => {
@@ -38,7 +39,7 @@ const ItemCard = React.memo(({ item, onPress }: { item: IItem, onPress: () => vo
     )
 });
 
-const Carousel: FC<ICarousel> = ({ data, title, onEndReached, showChevron = true, horizontal = true }) => {
+const Carousel: FC<ICarousel> = ({ data, title, onEndReached, showChevron = true, horizontal = true, titleStyle }) => {
     const navigation = useNavigation<NativeStackNavigationProp<MoviesStackParamsList | TVShowStackParamsList>>();
     const dispatch = useAppDispatch();
 
@@ -65,7 +66,7 @@ const Carousel: FC<ICarousel> = ({ data, title, onEndReached, showChevron = true
 
     return (
         <>
-            {title && <CsText type={ECSTextTypes.Big} style={{ marginBottom: 10 }}>{title}</CsText>}
+            {title && <CsText type={ECSTextTypes.Big} style={[{ marginBottom: 10 }, titleStyle]}>{title}</CsText>}
             <FlatList
                 horizontal={horizontal}
                 showsHorizontalScrollIndicator={false}
@@ -74,7 +75,7 @@ const Carousel: FC<ICarousel> = ({ data, title, onEndReached, showChevron = true
                 numColumns={!horizontal ? 2 : undefined}
                 renderItem={renderItem}
                 keyExtractor={(item) => item.id.toString()}
-                style={styles.flatlist}
+                style={[styles.flatlist, { marginBottom: horizontal ? 25 : 0, }]}
                 ListFooterComponent={() => showChevron ? (
                     <TouchableOpacity onPress={onEndReached} style={styles.endButton}>
                         <CsText type={ECSTextTypes.Biggest}>
@@ -91,7 +92,8 @@ export default Carousel;
 
 const styles = StyleSheet.create({
     flatlist: {
-        marginBottom: 25
+        height: 'auto',
+        minHeight: 300
     },
     item: {
         margin: 10,

@@ -1,7 +1,7 @@
-import { View, ScrollView, StyleSheet } from 'react-native'
+import { View, StyleSheet } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { SCREEN_HEIGHT } from '../../utils/window.util'
+import { SCREEN_HEIGHT, getFontSizeByWindowWidth } from '../../utils/window.util'
 import { Colors } from '../../theme/colors'
 import { CsCarousel, CsInput, CsText } from '../../components'
 import { ECSTextTypes } from '../../enums/ECSTextTypes'
@@ -24,23 +24,26 @@ const Search = () => {
         else {
             setSearchResults([])
         }
+
     }, [searchValue])
 
     return (
-        <ScrollView showsVerticalScrollIndicator={false} alwaysBounceVertical={false} style={{ backgroundColor: Colors.primary1000 }}>
-            <SafeAreaView style={styles.container}>
-                <View style={styles.content}>
-                    <CsText type={ECSTextTypes.Bigger}>Find</CsText>
-                    <CsInput onChangeText={(value) => setSearchValue(value)} />
-                    <CsCarousel
-                        horizontal={false}
-                        showChevron={false}
-                        data={searchResults as IItem[]}
-                        title={searchResults?.length ? t('search.results', { amount: searchResults?.length }) : ""}
-                    />
-                </View>
-            </SafeAreaView>
-        </ScrollView>
+        // <ScrollView showsVerticalScrollIndicator={false} alwaysBounceVertical={false} style={{ backgroundColor: Colors.primary1000 }}>
+        <SafeAreaView style={styles.container}>
+            <View style={styles.content}>
+                <CsText type={ECSTextTypes.Bigger}>Find</CsText>
+                <CsText type={ECSTextTypes.Small}>Search for a movie or a tv show </CsText>
+                <CsInput onChangeText={(value) => setSearchValue(value)} style={{ borderWidth: 2, borderColor: Colors.primary500, borderRadius: 20, paddingHorizontal: 20, }} />
+                <CsCarousel
+                    titleStyle={{ fontSize: getFontSizeByWindowWidth(22) }}
+                    horizontal={false}
+                    showChevron={false}
+                    data={searchResults as IItem[]}
+                    title={searchResults?.length ? t('search.results', { amount: searchResults?.length }) : ""}
+                />
+            </View>
+        </SafeAreaView>
+        // </ScrollView>
     )
 
 }
@@ -51,7 +54,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         height: SCREEN_HEIGHT,
-        padding: 15,
         alignItems: 'center',
         backgroundColor: Colors.primary1000,
     },

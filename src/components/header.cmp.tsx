@@ -19,9 +19,10 @@ interface IHeader {
     currentItem: IItem | null;
     canGoBack?: boolean;
     showFavorite?: boolean;
+    isProfileScreen?: boolean;
 }
 
-const Header: FC<IHeader> = ({ currentItem, canGoBack = true, showFavorite = true }) => {
+const Header: FC<IHeader> = ({ currentItem, canGoBack = true, showFavorite = true, isProfileScreen = false }) => {
     const navigation = useNavigation<NativeStackNavigationProp<ProfileStackParamsList>>();
     const dispatch = useAppDispatch();
     const { id: userId, favorites } = useAppSelector(state => state.auth.user!)
@@ -59,6 +60,10 @@ const Header: FC<IHeader> = ({ currentItem, canGoBack = true, showFavorite = tru
                 {showFavorite &&
                     <TouchableOpacity onPress={() => handleFavoritePress()} style={styles.button}>
                         <FontAwesomeIcon icon={isFavorite ? faHeartFilled : faHeart} color={Colors.contrast} size={25} />
+                    </TouchableOpacity>}
+                {isProfileScreen &&
+                    <TouchableOpacity onPress={() => handleFavoritePress()} style={styles.button}>
+                        <FontAwesomeIcon icon={favorites && favorites.length > 0 ? faHeartFilled : faHeart} color={Colors.contrast} size={25} />
                     </TouchableOpacity>}
             </View>
         </SafeAreaView>
