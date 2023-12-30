@@ -1,5 +1,5 @@
 
-import React, { useEffect } from 'react';
+import React from 'react';
 import { StyleSheet } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useTranslation } from 'react-i18next';
@@ -9,11 +9,9 @@ import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { MoviesRoutes, ProfileRoutes, TVShowsRoutes } from '.';
 import { CsText } from '../components';
 import { useAppDispatch, useAppSelector } from '../store/store';
-import { setFavorites } from '../store/reducers/auth.slice';
 import { Colors } from '../theme/colors';
 import { Fonts } from '../theme/fonts';
 import { SCREEN_HEIGHT, getFontSizeByWindowWidth } from '../utils/window.util';
-import { getFavoritesFromFirebase } from '../utils/firebase.util';
 import { ETabNavigator } from '../enums/ETabNavigator';
 import { ECSTextTypes } from '../enums/ECSTextTypes';
 import { SearchScreen } from '../screens';
@@ -26,11 +24,11 @@ const TabNavigator = () => {
     const { isTabBarVisible } = useAppSelector((state) => state.system)
     const { id: userId, favorites } = useAppSelector(state => state.auth.user!)
 
-    useEffect(() => {
-        getFavoritesFromFirebase(userId!)
-            .then(fetchedFavorites => dispatch(setFavorites(fetchedFavorites)))
-            .catch(error => console.error('Error fetching favorites:', error));
-    }, [userId, favorites]);
+    // useEffect(() => {
+    //     getFavoritesFromFirebase(userId!)
+    //         .then(fetchedFavorites => dispatch(setFavorites(fetchedFavorites)))
+    //         .catch(error => console.error('Error fetching favorites:', error));
+    // }, [userId, favorites]);
 
     const createTabOptions = (icon: IconProp, labelKey: string) => ({
         headerShown: false,

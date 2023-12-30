@@ -1,4 +1,4 @@
 export enum EMovieStackRoutes {
-    Main = 'main',
+    Main = 'moviesMain',
     SingleMovie = 'singleMovie'
 }

@@ -5,14 +5,22 @@ import { EProfileStackRoutes } from '../enums/EProfileStackRoutes';
 import { CsHeader } from '../components';
 import { FavoritesScreen, MovieScreen, ProfileScreen, TvShowScreen } from '../screens';
 import { ETVShowsStackRoutes } from '../enums/ETVShowsStackRoutes';
-import { useAppSelector } from '../store/store';
+import { useAppDispatch, useAppSelector } from '../store/store';
 import { EMovieStackRoutes } from '../enums/EMovieStackRoutes';
 
 const Stack = createNativeStackNavigator();
 
 const ProfileRoutes = () => {
+    const dispatch = useAppDispatch();
+    const { id: userId, favorites } = useAppSelector(state => state.auth.user!)
     const { selectedMovie } = useAppSelector(state => state.movies)
     const { selectedTvShow } = useAppSelector(state => state.tvShows)
+
+    // useEffect(() => {
+    //     getFavoritesFromFirebase(userId!)
+    //         .then(fetchedFavorites => dispatch(setFavorites(fetchedFavorites)))
+    //         .catch(error => console.error('Error fetching favorites:', error));
+    // }, [userId, favorites]);
 
     return (
         <Stack.Navigator initialRouteName={EProfileStackRoutes.MyProfile}>

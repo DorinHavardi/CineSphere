@@ -1,4 +1,4 @@
 export enum ETVShowsStackRoutes {
-    Main = 'main',
+    Main = 'tvShowMain',
     SingleTVShow = 'singleTvShow'
 }

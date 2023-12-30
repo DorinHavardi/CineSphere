@@ -26,7 +26,7 @@ interface ICarousel {
     onEndReached?: () => void;
     showChevron?: boolean;
     horizontal?: boolean;
-    titleStyle: TextStyle;
+    titleStyle?: TextStyle;
 }
 
 const ItemCard = React.memo(({ item, onPress }: { item: IItem, onPress: () => void }) => {

@@ -35,7 +35,7 @@ export const moviesSlice = createSlice({
                 state.status = 'loading';
             })
             .addCase(getMovies.fulfilled, (state, action) => {
-                const { category, page } = action.meta.arg;
+                const { category } = action.meta.arg;
                 state.status = 'succeeded';
                 state.movies[category] = action.payload;
             })

@@ -13,6 +13,12 @@
         "password": "Password",
         "confirm_password": "Confirm Password"
     },
+    "errors": {
+        "required": "Field is required",
+        "invalidEmail": "Invalid email address",
+        "minLength": "Field must be at least {{min}} characters long",
+        "passwordMatch": "Passwords doesn't match"
+    },
     "login": {
         "title": "Login",
         "social_login_subtitle": "Or sign in with",
